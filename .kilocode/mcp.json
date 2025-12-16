@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ],
+      "env": {
+        "DEFAULT_MINIMUM_TOKENS": ""
+      }
+    },
+    "svelte": {
+      "type": "streamable-http",
+      "url": "https://mcp.svelte.dev/mcp",
+      "disabled": false
+    }
+  }
+}
