@@ -4,11 +4,14 @@
 # belong in git's global ignore instead:
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
+
 # Ignore bundler config.
 /.bundle
 
+
 # Ignore all environment files.
 /.env*
+
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -16,10 +19,12 @@
 !/log/.keep
 !/tmp/.keep
 
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/
 !/tmp/pids/.keep
+
 
 # Ignore storage (uploaded files in development and any SQLite databases).
 /storage/*
@@ -28,7 +33,9 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+
 /public/assets
+
 
 # Ignore key files for decrypting credentials and more.
 /config/*.key
@@ -37,9 +44,13 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
-# Beads files
-*.db
-*.db-journal
+
+# SQLite development/test databases (NOT Beads)
+*.sqlite3
+*.sqlite
+
+
+# Beads daemon/socket files (ignore temporary runtime files only)
 bd.sock
 bd.pipe
 daemon.lock
