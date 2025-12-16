@@ -161,7 +161,89 @@ Metrics/BlockLength:
     - 'config/routes.rb'
 ```
 
-### 7. Verify Setup
+### 7. Install Ultimate Bug Scanner
+
+`curl -fsSL "https://raw.githubusercontent.com/Dicklesworthstone/ultimate_bug_scanner/master/install.sh?$(date +%s)" \
+  | bash -s -- --easy-mode`
+
+**Basic Usuage**
+```
+# Scan current directory
+ubs .
+
+# Scan specific directory
+ubs /path/to/your/project
+
+# Verbose mode (show more code examples)
+ubs -v .
+
+# Save report to file
+ubs . bug-report.txt
+
+# CI mode (exit code 1 on warnings)
+ubs . --fail-on-warning
+
+# Quiet mode (summary only)
+ubs -q .
+
+# Skip specific categories (e.g., skip TODO markers)
+ubs . --skip=11,14
+
+# Custom file extensions
+ubs . --include-ext=js,ts,vue,svelte
+```
+
+### 8. Install Beads (Task Tracker)
+
+`irm https://raw.githubusercontent.com/steveyegge/beads/main/install.ps1 | iex`
+
+**For Humans**
+```
+# In your project root:
+bd init
+
+# For OSS contributors (fork workflow):
+bd init --contributor
+
+# For team members (branch workflow):
+bd init --team
+
+# For protected branches (GitHub/GitLab):
+bd init --branch beads-metadata
+
+# bd will:
+# - Create .beads/ directory with database
+# - Import existing issues from git (if any)
+# - Prompt to install git hooks (recommended: say yes)
+# - Prompt to configure git merge driver (recommended: say yes)
+# - Auto-start daemon for sync
+
+# Then tell your agent about bd:
+echo -e "\nBEFORE ANYTHING ELSE: run 'bd onboard' and follow the instructions" >> AGENTS.md
+```
+
+**For Agents**
+Run the interactive guide to learn the full workflow:
+`bd quickstart`
+
+Quick reference for agent workflows:
+```
+# Find ready work
+bd ready --json | jq '.[0]'
+
+# Create issues during work
+bd create "Discovered bug" -t bug -p 0 --json
+
+# Link discovered work back to parent
+bd dep add <new-id> <parent-id> --type discovered-from
+
+# Update status
+bd update <issue-id> --status in_progress --json
+
+# Complete work
+bd close <issue-id> --reason "Implemented" --json
+```
+### 9. Verify Setup
 
 ```bash
 # Run Rails server
@@ -175,6 +257,16 @@ bundle exec rubocop
 ```
 
 ---
+
+### 10. Connect to Git and Create First Commit
+
+```bash
+git init
+git add .
+git commit -m "Initial commit with Rails setup"
+git remote add origin <your-repo-url>
+git push -u origin main
+```
 
 ## Quick Reference Commands
 

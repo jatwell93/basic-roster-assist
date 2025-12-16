@@ -682,9 +682,50 @@ bd sync                            # Force immediate export/commit/push
 - ✅ Use `--json` flag for all commands (programmatic consistency)
 - ✅ Run `bd sync` at end of every session
 - ✅ Test locally with `BEADS_DB=/tmp/test.db` before production use
+- ✅ Store AI planning docs in `history/` directory
+- ✅ Run `bd <cmd> --help` to discover available flags
+- ✅ Commit `.beads/issues.jsonl` together with code changes
 - ❌ Do NOT commit `.beads/beads.db` directly (beads handles git)
 - ❌ Do NOT create test data in production database
 - ❌ Do NOT close tasks without updating status in code first
+- ❌ Do NOT clutter repo root with planning documents
+
+### Issue Types
+
+- `bug` - Something broken
+- `feature` - New functionality
+- `task` - Work item (tests, docs, refactoring)
+- `epic` - Large feature with subtasks
+- `chore` - Maintenance (dependencies, tooling)
+
+### Auto-Sync
+
+bd automatically syncs with git:
+- Exports to `.beads/issues.jsonl` after changes (5s debounce)
+- Imports from JSONL when newer (e.g., after `git pull`)
+- No manual export/import needed!
+
+### Managing AI-Generated Planning Documents
+
+AI assistants often create planning and design documents during development:
+- PLAN.md, IMPLEMENTATION.md, ARCHITECTURE.md
+- DESIGN.md, CODEBASE_SUMMARY.md, INTEGRATION_PLAN.md
+- TESTING_GUIDE.md, TECHNICAL_DESIGN.md, and similar files
+
+**Best Practice: Use a dedicated directory for these ephemeral files**
+
+**Recommended approach:**
+- Create a `history/` directory in the project root
+- Store ALL AI-generated planning/design docs in `history/`
+- Keep the repository root clean and focused on permanent project files
+- Only access `history/` when explicitly asked to review past planning
+
+**Benefits:**
+- ✅ Clean repository root
+- ✅ Clear separation between ephemeral and permanent documentation
+- ✅ Easy to exclude from version control if desired
+- ✅ Preserves planning history for archeological research
+- ✅ Reduces noise when browsing the project
 
 ---
 
