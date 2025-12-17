@@ -448,7 +448,7 @@ PLAN [user approves] → BUILD → DIFF → QA [pass] → APPROVAL [user approve
 1. Create feature branch: `git checkout -b feature/description`
 2. Update Beads: `bd update <id> --status in_progress --json`
 3. Write tests (RED phase) before implementation
-4. Implement code (GREEN phase)
+4. Implement code (GREEN phase) - If you discover new work during this process, **always create a new Beads issue** linked to the current task using `bd create "Discovered bug" --description="Details" -p 1 --deps discovered-from:bd-a1b2 --json`.
 5. Run tests: `bundle exec rails test`
 6. Run linter: `bundle exec rubocop -a`
 7. **🚀 GOLDEN RULE**: Run `ubs <changed-files>` before commit
@@ -1000,8 +1000,6 @@ bd sync                              # Push to git
 2. Work in feature branch with TDD
 3. **Run `ubs <changed-files>` before commit** (golden rule!)
 4. Sync with `bd sync` at session end
-
-**Let's build smarter — together.**
 
 <!-- OPENSPEC:START -->
 # OpenSpec Instructions
