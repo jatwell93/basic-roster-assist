@@ -54,3 +54,6 @@
 bd.sock
 bd.pipe
 daemon.lock
+
+# bug scanner output
+rb-bug-scan-report.txt
