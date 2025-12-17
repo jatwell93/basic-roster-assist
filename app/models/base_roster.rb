@@ -1,3 +1,5 @@
+# == Schema Information
+# Manages roster templates with user association, date ranges, and week type enums
 class BaseRoster < ApplicationRecord
   enum :week_type, { weekly: 0, fortnightly: 1 }
 
