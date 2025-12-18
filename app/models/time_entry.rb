@@ -5,11 +5,25 @@ class TimeEntry < ApplicationRecord
 
   validate :clock_out_after_clock_in, if: :clock_out?
 
+  scope :completed, -> { where.not(clock_out: nil) }
+
   # Business logic methods
   def duration
     return nil unless clock_out && clock_in
 
     (clock_out - clock_in).to_i
+  end
+
+  def hours_worked
+    return 0.0 unless duration
+
+    duration / 3600.0
+  end
+
+  def wage_amount
+    return 0.0 unless user&.hourly_rate
+
+    hours_worked * user.hourly_rate
   end
 
   def ongoing?

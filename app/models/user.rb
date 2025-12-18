@@ -7,4 +7,6 @@ class User < ApplicationRecord
   enum :role, { admin: 0, manager: 1, staff: 2 }, default: :staff
 
   has_many :time_entries, dependent: :destroy
+
+  validates :hourly_rate, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 end
