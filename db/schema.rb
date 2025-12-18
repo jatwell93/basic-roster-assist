@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_17_042602) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_18_113212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -36,6 +36,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_042602) do
     t.index ["base_roster_id"], name: "index_base_shifts_on_base_roster_id"
   end
 
+  create_table "time_entries", force: :cascade do |t|
+    t.datetime "clock_in"
+    t.datetime "clock_out"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_time_entries_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -51,4 +60,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_17_042602) do
 
   add_foreign_key "base_rosters", "users"
   add_foreign_key "base_shifts", "base_rosters"
+  add_foreign_key "time_entries", "users"
 end
