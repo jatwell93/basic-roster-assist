@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_18_122522) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_21_075139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_122522) do
     t.time "start_time", null: false
     t.datetime "updated_at", null: false
     t.index ["base_roster_id"], name: "index_base_shifts_on_base_roster_id"
+  end
+
+  create_table "sales_forecasts", force: :cascade do |t|
+    t.decimal "actual_sales", precision: 8, scale: 2
+    t.integer "confidence_level"
+    t.datetime "created_at", null: false
+    t.date "end_date"
+    t.integer "forecast_type"
+    t.decimal "projected_sales", precision: 8, scale: 2
+    t.date "start_date"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_sales_forecasts_on_user_id"
   end
 
   create_table "time_entries", force: :cascade do |t|
@@ -61,5 +74,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_122522) do
 
   add_foreign_key "base_rosters", "users"
   add_foreign_key "base_shifts", "base_rosters"
+  add_foreign_key "sales_forecasts", "users"
   add_foreign_key "time_entries", "users"
 end
