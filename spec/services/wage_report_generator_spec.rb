@@ -106,7 +106,7 @@ RSpec.describe WageReportGenerator do
         service = described_class.new(
           start_date: start_date,
           end_date: end_date,
-          user_ids: [user.id]
+          user_ids: [ user.id ]
         )
         csv_content = service.generate_csv
 
