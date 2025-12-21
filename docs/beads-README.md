@@ -78,9 +78,6 @@ Issues in Beads are:
 Try Beads in your own projects:
 
 ```bash
-# Install Beads
-curl -sSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
-
 # Initialize in your repo
 bd init
 
@@ -89,11 +86,5 @@ bd create "Try out Beads"
 ```
 
 ## Learn More
-
-- **Documentation**: [github.com/steveyegge/beads/docs](https://github.com/steveyegge/beads/tree/main/docs)
 - **Quick Start Guide**: Run `bd quickstart`
-- **Examples**: [github.com/steveyegge/beads/examples](https://github.com/steveyegge/beads/tree/main/examples)
 
----
-
-*Beads: Issue tracking that moves at the speed of thought* ⚡
