@@ -575,7 +575,7 @@ Code changes complete, tested, and scanned. Ready for merge.
 - ✅ Security reviewed: no secrets, validated input
 - ✅ Follow Rails conventions
 
-**Next**: Merge to develop branch, deploy to staging
+**Next**: Merge to main branch, deploy to staging
 
 ---
 
@@ -592,7 +592,7 @@ Code changes complete, tested, and scanned. Ready for merge.
 **In**: User approved | **Out**: Changes applied/merged  
 **Actions**:
 1. Verify all tests pass one final time
-2. Merge feature branch to develop: `git merge --no-ff feature/description`
+2. Merge feature branch to main: `git merge --no-ff feature/description`
 3. Verify merge successful
 4. Update Beads: `bd close <id> --reason "Merged to develop" --json`
 5. Sync Beads: `bd sync`
