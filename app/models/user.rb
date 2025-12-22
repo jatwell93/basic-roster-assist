@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   has_many :time_entries, dependent: :destroy
   has_many :sales_forecasts, dependent: :destroy
+  has_many :award_rates, dependent: :destroy
 
   validates :hourly_rate, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
