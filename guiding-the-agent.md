@@ -37,3 +37,7 @@ Agent action: bd list with filters, pick ID, then bd update <id> --status in_pro
 By shifting your instructions to revolve around bd commands, you enable your
 agent to leverage Beads' capabilities for long-term planning, dependency
 tracking, and consistent work management across sessions.
+
+## Notes
+1. You need to make sure openspec is getting updated at the end of each session with beads. beads only had 7 task out of 22 and might have been missing more. Openspec had not been updated with 0/22 of the tasks done. No change logs were being used. Need to simplify the state machine and add in openspec checkpoints. Implement beads viewer. Remove ubs and just run it here and there.
+2. 
