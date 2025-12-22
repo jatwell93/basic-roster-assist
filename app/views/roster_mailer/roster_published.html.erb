@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Roster Published</h1>
+
+    <p>Dear <%= @user.name %>,</p>
+
+    <p>A new roster has been published for your review:</p>
+
+    <div style="background-color: #f5f5f5; padding: 15px; margin: 15px 0; border-left: 4px solid #007bff;">
+      <h3 style="margin-top: 0;"><%= @roster.name %></h3>
+      <p><strong>Published:</strong> <%= @roster.updated_at.strftime('%B %d, %Y at %I:%M %p') %></p>
+      <% if @roster.description.present? %>
+        <p><strong>Description:</strong> <%= @roster.description %></p>
+      <% end %>
+    </div>
+
+    <p>Please log in to your account to view the complete roster details and your assigned shifts.</p>
+
+    <p>If you have any questions about your roster, please contact your manager.</p>
+
+    <p>Best regards,<br>
+    The Roster Management Team</p>
+  </body>
+</html>
