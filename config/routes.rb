@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
   devise_for :users
+
+  # Roster management routes
+  resources :rosters, only: [ :index, :show ]
+
+  # Clock-in routes for staff PIN verification
+  get "clock_in", to: "clock_ins#new", as: :new_clock_in
+  post "clock_in", to: "clock_ins#create"
+
+  # Admin-only award management routes
+  constraints ->(request) { request.env["warden"].user&.admin? } do
+    resources :awards
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -11,5 +24,5 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "rosters#index"
 end

@@ -373,3 +373,37 @@ SMTP_PASSWORD=your_smtp_password
 ---
 
 **Ready to proceed?** Once Ruby, Rails, PostgreSQL, and Node.js are installed, let me know and we'll initialize the Rails application!
+
+## ✅ Task Completed: Test Users Added to Seeds
+
+I've successfully created test users for your basic-roster-assist application. Here's what was accomplished:
+
+### **Changes Made:**
+
+1. **Updated `db/seeds.rb`** - Added test users for all role levels:
+   - **Admin**: `admin@example.com` / `password123` / PIN: `1234`
+   - **Manager**: `manager@example.com` / `password123` / PIN: `5678` 
+   - **Staff**: `staff1@example.com`, `staff2@example.com`, `staff3@example.com` / `password123` / PINs: `1111`, `2222`, `3333`
+
+2. **Enhanced `app/models/user.rb`** - Added PIN encryption functionality:
+   - Added `pin=` setter method that encrypts PINs using AES-256-CBC
+   - Maintains existing `valid_pin?` verification method
+
+### **Test Credentials for Login:**
+
+```
+Admin:    admin@example.com    / password123    / PIN: 1234
+Manager:  manager@example.com  / password123    / PIN: 5678
+Staff1:   staff1@example.com   / password123    / PIN: 1111
+Staff2:   staff2@example.com   / password123    / PIN: 2222
+Staff3:   staff3@example.com   / password123    / PIN: 3333
+```
+
+### **How to Use:**
+
+1. Run `bundle exec rails db:seed` to populate the test users
+2. Start your Rails server with `rails s`
+3. Visit the application and use any of the above credentials to log in
+4. Test different features based on user roles (admin can manage everything, managers can view reports, staff can clock in/out)
+
+The seeds file now properly handles the encrypted PIN storage and creates users with appropriate roles and hourly rates for testing the roster management, time tracking, and reporting features.
