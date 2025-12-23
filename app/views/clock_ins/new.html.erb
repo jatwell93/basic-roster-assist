@@ -1,0 +1,101 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Staff Clock In/Out
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Enter your PIN to clock in or out
+      </p>
+    </div>
+
+    <%= form_with url: clock_ins_path, method: :post, class: "mt-8 space-y-6" do |form| %>
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <%= form.label :pin, class: "sr-only" %>
+          <%= form.password_field :pin,
+                                  required: true,
+                                  placeholder: "Enter your PIN",
+                                  class: "appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm",
+                                  maxlength: 10,
+                                  pattern: "[0-9]*",
+                                  inputmode: "numeric",
+                                  autocomplete: "off" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit "Submit",
+                        class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" %>
+      </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="rounded-md bg-green-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-green-800">
+              <%= flash[:notice] %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="rounded-md bg-red-50 p-4">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-red-800">
+              <%= flash[:alert] %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="text-center">
+      <p class="text-sm text-gray-600">
+        Current time: <span class="font-medium"><%= Time.current.strftime('%H:%M:%S') %></span>
+      </p>
+      <p class="text-xs text-gray-500 mt-1">
+        <%= Time.current.strftime('%A, %B %d, %Y') %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+// Auto-refresh the current time every second
+function updateTime() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString('en-US', {
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
+  const dateString = now.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  document.querySelector('.font-medium').textContent = timeString;
+  document.querySelector('.text-xs.text-gray-500').textContent = dateString;
+}
+
+setInterval(updateTime, 1000);
+updateTime(); // Initial call
+</script>

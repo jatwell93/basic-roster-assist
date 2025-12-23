@@ -1,0 +1,39 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">My Rosters</h1>
+    <p class="mt-2 text-sm text-gray-600">View and manage your roster schedules</p>
+  </div>
+
+  <% if @rosters.empty? %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No rosters</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating your first roster.</p>
+    </div>
+  <% else %>
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <% @rosters.each do |roster| %>
+        <div class="bg-white overflow-hidden shadow rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-medium text-gray-900">
+                <%= roster.name || "Roster ##{roster.id}" %>
+              </h3>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <%= roster.base_shifts.count %> shifts
+              </span>
+            </div>
+            <p class="mt-1 text-sm text-gray-600">
+              Created <%= time_ago_in_words(roster.created_at) %> ago
+            </p>
+            <div class="mt-4">
+              <%= link_to "View Roster", roster_path(roster), class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
