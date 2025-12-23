@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_21_093717) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_22_222722) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "award_rates", force: :cascade do |t|
+    t.string "award_code"
+    t.string "classification"
+    t.datetime "created_at", null: false
+    t.date "effective_date"
+    t.decimal "rate"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_award_rates_on_user_id"
+  end
 
   create_table "base_rosters", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -74,6 +85,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_21_093717) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "award_rates", "users"
   add_foreign_key "base_rosters", "users"
   add_foreign_key "base_shifts", "base_rosters"
   add_foreign_key "sales_forecasts", "users"
