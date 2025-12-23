@@ -55,14 +55,29 @@ Issues in Beads are:
 - Branch-aware issue tracking
 - Intelligent JSONL merge resolution
 
+## ⚠️ Important Sync Warning
+
+**Critical**: `bd sync` can remove issues if there's a JSONL hash mismatch. This happens when:
+
+- Multiple people work on issues simultaneously
+- Git conflicts in `.beads/issues.jsonl`
+- Manual edits to the JSONL file
+- Race conditions during sync operations
+
+**Prevention Strategies**:
+1. **Always commit changes before syncing**: `git add . && git commit -m "Work in progress"`
+2. **Sync frequently**: Run `bd sync` after each task completion, not at the end of sessions
+3. **Check for conflicts**: Run `bd list` after sync to verify all issues are present
+4. **Backup important issues**: Keep a local copy of critical task IDs
+5. **Use feature branches**: Work on separate branches to avoid conflicts
+
+**Recovery**: If issues are lost, recreate them using `bd create` with the original descriptions.
+
 ## Get Started with Beads
 
 Try Beads in your own projects:
 
 ```bash
-# Install Beads
-curl -sSL https://raw.githubusercontent.com/steveyegge/beads/main/scripts/install.sh | bash
-
 # Initialize in your repo
 bd init
 
@@ -71,11 +86,5 @@ bd create "Try out Beads"
 ```
 
 ## Learn More
-
-- **Documentation**: [github.com/steveyegge/beads/docs](https://github.com/steveyegge/beads/tree/main/docs)
 - **Quick Start Guide**: Run `bd quickstart`
-- **Examples**: [github.com/steveyegge/beads/examples](https://github.com/steveyegge/beads/tree/main/examples)
 
----
-
-*Beads: Issue tracking that moves at the speed of thought* ⚡

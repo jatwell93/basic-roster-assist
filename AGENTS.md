@@ -25,23 +25,6 @@
 **⚠️ Note on Searching**: Use `ast-grep` for structural code changes, `ripgrep` for text search. See [Searching Guide](#searching--ast-grep-vs-ripgrep) below.
 
 ---
-## 🚀 First Session Protocol (run once)
-
-**BEFORE ANY WORK:**
-
-1. Run `bd onboard` (one-time setup, ~3 min)
-2. Check available work: `bd ready --json`
-3. Pick highest priority task
-4. Claim it: `bd update <id> --status in_progress --json`
-5. Review: `bd show <id> --json`
-6. Follow PLAN → BUILD → DIFF → QA → APPROVAL → APPLY → DOCS
-
-**At session end:**
-- Run `bd sync` (pushes task updates to git)
-
-See Section 6 (Task Management with Beads) for full command reference.
-
----
 
 ## 1. Compliance & Core Rules
 
@@ -354,21 +337,25 @@ Create these in your Rails project root for reference:
 
 ```bash
 root/
-├── README.md                    # Project overview, setup, running tests
-├── AGENTS.md                    # This file
+├── README.md                    # Project overview, setup, running tests (created)
+├── AGENTS.md                    # This file 
 ├── gems.md                      # Gem patterns & best practices (load when needed)
 ├── .beads/
-│   ├── README.md                # Beads quick reference
-│   └── beads.db                 # Issue database (git-tracked JSONL)
+│   ├── README.md                # Beads quick reference (created)
+│   └── beads.db                 # Issue database (git-tracked JSONL) (created)
 ├── openspec/
-│   └── AGENTS.md                # OpenSpec instructions for agents
+│   └── AGENTS.md                # OpenSpec instructions for agents (created)
 ├── docs/
-│   ├── architecture.md          # System design, components, integrations
-│   ├── database-schema.md       # Data model overview, key relationships
-│   ├── api-conventions.md       # API standards, response formats
-│   ├── testing-patterns.md      # How to write tests (fixtures, factories)
-│   ├── deployment.md            # How to deploy (CI/CD, env vars)
-│   └── decisions.md             # Architectural decision records (ADRs)
+│   ├── architecture.md          # System design, components, integrations (create when needed)
+│   ├── database-schema.md       # Data model overview, key relationships (create when needed)
+│   ├── api-conventions.md       # API standards, response formats (create when needed)
+│   ├── testing-patterns.md      # How to write tests (fixtures, factories) (create when needed)
+│   ├── deployment.md            # How to deploy (CI/CD, env vars) (create when needed)
+│   ├── beads-READMED.md         # Set up for beads (created)
+│   ├── TROUBLESHOOTING.md       # Trouble shooting for beads (created)
+│   ├── SETUP.md                 # Initital setup (createed)
+│   ├── bug-checker-ubs.md       # How to use the bug checker for hard to find bugs and before commits
+│   └── decisions.md             # Architectural decision records (ADRs)(create when needed)
 └── .env.example                 # Environment variables (no secrets!)
 ```
 
@@ -448,10 +435,10 @@ PLAN [user approves] → BUILD → DIFF → QA [pass] → APPROVAL [user approve
 1. Create feature branch: `git checkout -b feature/description`
 2. Update Beads: `bd update <id> --status in_progress --json`
 3. Write tests (RED phase) before implementation
-4. Implement code (GREEN phase)
+4. Implement code (GREEN phase) - If you discover new work during this process, **always create a new Beads issue** linked to the current task using `bd create "Discovered bug" --description="Details" -p 1 --deps discovered-from:bd-a1b2 --json`.
 5. Run tests: `bundle exec rails test`
 6. Run linter: `bundle exec rubocop -a`
-7. **🚀 GOLDEN RULE**: Run `ubs <changed-files>` before commit
+7. **🚀 GOLDEN RULE**: Run `ubs --only=ruby,js,ts` before commit
    - Exit 0 = safe to commit
    - Exit >0 = fix bugs and re-run `ubs`
 8. Generate diff (do NOT commit/push yet)
@@ -479,7 +466,6 @@ end
 
 # Verify: bundle exec rails test (should now pass)
 ```
-
 **UBS (Ultimate Bug Scanner) Integration**:
 
 UBS stands for **"Ultimate Bug Scanner"**: Flags likely bugs early. Use before every commit.
@@ -488,7 +474,7 @@ UBS stands for **"Ultimate Bug Scanner"**: Flags likely bugs early. Use before e
 ```bash
 ubs <changed-files>          # Specific files (< 1s) — RECOMMENDED
 ubs $(git diff --name-only)  # Staged files
-ubs --only=rb app/           # Language filter (faster)
+ubs --only=ruby,js app/      # Language filter (faster)
 ubs .                        # Whole project (background task only)
 ```
 
@@ -589,7 +575,7 @@ Code changes complete, tested, and scanned. Ready for merge.
 - ✅ Security reviewed: no secrets, validated input
 - ✅ Follow Rails conventions
 
-**Next**: Merge to develop branch, deploy to staging
+**Next**: Merge to main branch, deploy to staging
 
 ---
 
@@ -606,7 +592,7 @@ Code changes complete, tested, and scanned. Ready for merge.
 **In**: User approved | **Out**: Changes applied/merged  
 **Actions**:
 1. Verify all tests pass one final time
-2. Merge feature branch to develop: `git merge --no-ff feature/description`
+2. Merge feature branch to main: `git merge --no-ff feature/description`
 3. Verify merge successful
 4. Update Beads: `bd close <id> --reason "Merged to develop" --json`
 5. Sync Beads: `bd sync`
@@ -995,13 +981,6 @@ bd sync                              # Push to git
 **Each session starts fresh. Be precise, be decisive, be correct.**  
 **Mission**: Build Rails applications respecting conventions, following established patterns, improving incrementally.  
 
-**Key Workflow**: 
-1. Check `bd ready --json` for next task
-2. Work in feature branch with TDD
-3. **Run `ubs <changed-files>` before commit** (golden rule!)
-4. Sync with `bd sync` at session end
-
-**Let's build smarter — together.**
 
 <!-- OPENSPEC:START -->
 # OpenSpec Instructions
@@ -1021,3 +1000,4 @@ Use `@/openspec/AGENTS.md` to learn:
 Keep this managed block so 'openspec update' can refresh the instructions.
 
 <!-- OPENSPEC:END -->
+
