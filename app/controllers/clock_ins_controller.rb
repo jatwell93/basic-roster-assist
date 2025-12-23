@@ -13,7 +13,7 @@ class ClockInsController < ApplicationController
     end
 
     # Find user by PIN (assuming PIN is unique)
-    user = User.find_by(pin: pin)
+    user = User.find_by_pin(pin)
 
     if user.nil?
       flash.now[:alert] = "Invalid PIN"
