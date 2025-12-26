@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe WeeklyRosterGenerationService, type: :service do
   let(:user) { create(:user) }
   let(:base_roster) { create(:base_roster, user: user, name: 'Summer Schedule', week_type: :weekly) }
-  
+
   before do
     # Create base shifts for the roster
     create(:base_shift,
@@ -12,14 +12,14 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
             start_time: '09:00',
             end_time: '17:00',
             shift_type: 'morning')
-    
+
     create(:base_shift,
             base_roster: base_roster,
             day_of_week: 'tuesday',
             start_time: '14:00',
             end_time: '22:00',
             shift_type: 'afternoon')
-    
+
     create(:base_shift,
             base_roster: base_roster,
             day_of_week: 'wednesday',
@@ -31,11 +31,11 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
   describe '#generate' do
     context 'with valid base roster' do
       let(:week_start_date) { Date.current.beginning_of_week }
-      
+
       it 'creates weekly roster with correct attributes' do
         service = described_class.new(base_roster: base_roster, week_start_date: week_start_date)
         weekly_roster = service.generate
-        
+
         expect(weekly_roster).to be_persisted
         expect(weekly_roster.name).to eq('Summer Schedule')
         expect(weekly_roster.week_start_date).to eq(week_start_date)
@@ -48,16 +48,16 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
       it 'creates weekly shifts based on base shifts' do
         service = described_class.new(base_roster: base_roster, week_start_date: week_start_date)
         weekly_roster = service.generate
-        
+
         expect(weekly_roster.weekly_shifts.count).to eq(3)
-        
+
         # Check Monday shift
         monday_shift = weekly_roster.weekly_shifts.find_by(day_of_week: 'monday')
         expect(monday_shift).to be_present
         expect(monday_shift.start_time.strftime('%H:%M')).to eq('09:00')
         expect(monday_shift.end_time.strftime('%H:%M')).to eq('17:00')
         expect(monday_shift.shift_type).to eq('morning')
-        
+
         # Check Tuesday shift
         tuesday_shift = weekly_roster.weekly_shifts.find_by(day_of_week: 'tuesday')
         expect(tuesday_shift).to be_present
@@ -69,7 +69,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
       it 'handles overnight shifts correctly' do
         service = described_class.new(base_roster: base_roster, week_start_date: week_start_date)
         weekly_roster = service.generate
-        
+
         wednesday_shift = weekly_roster.weekly_shifts.find_by(day_of_week: 'wednesday')
         expect(wednesday_shift).to be_present
         expect(wednesday_shift.start_time.strftime('%H:%M')).to eq('18:00')
@@ -81,7 +81,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
     context 'with fortnightly base roster' do
       let(:fortnightly_roster) { create(:base_roster, user: user, week_type: :fortnightly) }
       let(:week_start_date) { Date.current.beginning_of_week }
-      
+
       before do
         create(:base_shift,
                 base_roster: fortnightly_roster,
@@ -93,7 +93,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
       it 'creates weekly roster with fortnightly type' do
         service = described_class.new(base_roster: fortnightly_roster, week_start_date: week_start_date)
         weekly_roster = service.generate
-        
+
         expect(weekly_roster.week_type).to eq('fortnightly')
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
       it 'raises error when base roster has no base shifts' do
         empty_roster = create(:base_roster, user: user)
         week_start_date = Date.current.beginning_of_week
-        
+
         expect {
           described_class.new(base_roster: empty_roster, week_start_date: week_start_date).generate
         }.to raise_error(StandardError, 'Base roster must have shifts to generate weekly roster')
@@ -123,7 +123,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
 
     context 'with existing weekly roster for same week' do
       let(:week_start_date) { Date.current.beginning_of_week }
-      
+
       before do
         # Create an existing weekly roster for the same week
         create(:weekly_roster,
@@ -136,7 +136,7 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
 
       it 'raises error when weekly roster already exists for week' do
         service = described_class.new(base_roster: base_roster, week_start_date: week_start_date)
-        
+
         expect {
           service.generate
         }.to raise_error(StandardError, 'Weekly roster already exists for this week')
@@ -146,12 +146,12 @@ RSpec.describe WeeklyRosterGenerationService, type: :service do
 
   describe '#week_range' do
     let(:service) { described_class.new(base_roster: base_roster, week_start_date: Date.current.beginning_of_week) }
-    
+
     it 'returns correct week start and end dates' do
       week_start = Date.current.beginning_of_week
       week_end = week_start + 6.days
-      
-      expect(service.send(:week_range)).to eq([week_start, week_end])
+
+      expect(service.send(:week_range)).to eq([ week_start, week_end ])
     end
   end
 end

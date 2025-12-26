@@ -1,0 +1,149 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-controller="calendar">
+  <div class="mb-8">
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Weekly Roster Calendar</h1>
+        <p class="mt-2 text-sm text-gray-600">
+          Week of <%= @week_start.strftime('%B %d, %Y') %> - <%= @week_end.strftime('%B %d, %Y') %>
+        </p>
+      </div>
+      <div class="shrink-0 flex space-x-3">
+        <%= link_to rosters_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" do %>
+          <svg class="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Rosters
+        <% end %>
+        <%= link_to "New Roster", new_roster_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <% if @weekly_rosters.empty? %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No roster data for this week</h3>
+      <p class="mt-1 text-sm text-gray-500">Create a roster template and generate weekly schedules to see them here.</p>
+      <div class="mt-6">
+        <%= link_to "Create Roster", new_roster_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <div class="grid grid-cols-8 gap-px bg-gray-200">
+        <!-- Header row -->
+        <div class="bg-gray-50 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          Time
+        </div>
+        <% Date::DAYNAMES.each do |day_name| %>
+          <div class="bg-gray-50 px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= day_name %>
+          </div>
+        <% end %>
+
+        <!-- Time slots (example: 6 AM to 10 PM in 1-hour increments) -->
+        <% (6..22).each do |hour| %>
+          <div class="bg-white px-4 py-4 text-sm text-gray-900 border-r border-gray-200">
+            <%= "#{hour}:00" %>
+          </div>
+
+          <% 7.times do |day_offset| %>
+            <% current_date = @week_start + day_offset.days %>
+            <% shifts_for_slot = @weekly_rosters.flat_map do |weekly_roster| %>
+              <% weekly_roster.weekly_shifts.select do |shift| %>
+                <% shift.day_of_week == current_date.wday &&
+                   shift.start_time.hour <= hour &&
+                   shift.end_time.hour > hour %>
+              <% end %>
+            <% end %>
+
+            <div class="bg-white px-4 py-4 text-sm border-r border-gray-200 min-h-[60px] <%= shifts_for_slot.any? ? 'bg-blue-50' : '' %>" data-shift-target="shift">
+              <% if shifts_for_slot.any? %>
+                <% shifts_for_slot.each do |shift| %>
+                  <div class="bg-blue-100 border border-blue-200 rounded px-2 py-1 mb-1 text-xs">
+                    <div class="font-medium text-blue-900">
+                      <%= shift.start_time.strftime('%H:%M') %> - <%= shift.end_time.strftime('%H:%M') %>
+                    </div>
+                    <div class="text-blue-700">
+                      <%= shift.shift_type.titleize %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-md">
+      <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Weekly Summary</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <% total_shifts = @weekly_rosters.sum { |wr| wr.weekly_shifts.count } %>
+          <% total_hours = @weekly_rosters.sum do |wr| %>
+            <% wr.weekly_shifts.sum do |shift| %>
+              <% (shift.end_time - shift.start_time) / 3600.0 %>
+            <% end %>
+          <% end %>
+
+          <div class="bg-gray-50 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+              <div class="flex items-center">
+                <div class="shrink-0">
+                  <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt class="text-sm font-medium text-gray-500 truncate">Total Shifts</dt>
+                    <dd class="text-lg font-medium text-gray-900"><%= total_shifts %></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+              <div class="flex items-center">
+                <div class="shrink-0">
+                  <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt class="text-sm font-medium text-gray-500 truncate">Total Hours</dt>
+                    <dd class="text-lg font-medium text-gray-900"><%= sprintf("%.1f", total_hours) %></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+              <div class="flex items-center">
+                <div class="shrink-0">
+                  <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt class="text-sm font-medium text-gray-500 truncate">Staff Required</dt>
+                    <dd class="text-lg font-medium text-gray-900"><%= total_shifts %></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
