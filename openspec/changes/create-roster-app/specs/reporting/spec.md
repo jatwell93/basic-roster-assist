@@ -13,3 +13,5 @@ The system SHALL send email notifications for key events.
 #### Scenario: Send Roster Notification
 - **WHEN** a manager publishes a new roster
 - **THEN** all affected staff members receive an email notification
+
+# NOT REPORTING VIEW

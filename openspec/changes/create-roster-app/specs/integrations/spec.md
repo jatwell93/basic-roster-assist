@@ -10,3 +10,5 @@ The system SHALL integrate with the Fair Work API to retrieve current award rate
 #### Scenario: API Failure Fallback
 - **WHEN** the Fair Work API is unavailable
 - **THEN** the system allows manual entry of wage rates
+
+# DOES NOT CURRENTLY FETCH ANY RATES

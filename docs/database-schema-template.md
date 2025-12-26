@@ -17,14 +17,37 @@
 4. Add notes for any data migrations, backfills, or rollouts.
 
 ## High-level model map
-Describe the main bounded contexts and how data flows.
+Describe the main bounded contexts and how data flows e.g:
 
 - **Accounts/Billing**: Account → Subscription → Invoice
 - **Identity/Access**: User → Membership → Role
 - **Content**: Post → Comment → Reaction
 
-(Optional) Add an ERD screenshot/link:
-- `docs/diagrams/erd.png` (or link to dbdiagram.io)
+## Mermaid diagram 
+
+```mermaid
+classDiagram
+    Animal <|-- Duck
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+      +String beakColor
+      +swim()
+      +quack()
+    }
+    class Fish{
+      -int sizeInFeet
+      -canEat()
+    }
+    class Zebra{
+      +bool is_wild
+      +run()
+    }
+```
 
 ---
 

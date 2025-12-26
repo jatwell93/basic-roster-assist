@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Roster management routes
-  resources :rosters, only: [ :index, :show ]
+  resources :rosters, only: [ :index, :show, :new ]
 
   # Clock-in routes for staff PIN verification
   get "clock_in", to: "clock_ins#new", as: :new_clock_in
