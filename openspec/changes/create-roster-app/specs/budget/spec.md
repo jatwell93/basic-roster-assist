@@ -20,3 +20,5 @@ The system SHALL display the Sales vs Wages percentage.
 #### Scenario: Display Percentage
 - **WHEN** both sales forecast and rostered shifts exist
 - **THEN** the system displays the calculated wage percentage (Total Wages / Total Sales * 100)
+
+## MISSING A VIEW

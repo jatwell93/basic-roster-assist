@@ -20,3 +20,5 @@ Managers SHALL be able to add, remove, or modify shifts in a weekly roster.
 #### Scenario: Add Casual Shift
 - **WHEN** a manager adds a shift to a weekly roster
 - **THEN** the shift is saved and the projected wage cost is updated
+
+# NO VIEW FOR CREATING ROSTERS

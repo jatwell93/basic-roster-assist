@@ -17,3 +17,5 @@ The system SHALL allow staff to clock out at the end of their shift.
 #### Scenario: Successful Clock Out
 - **WHEN** a staff member enters their PIN to clock out
 - **THEN** the system records the end time
+
+# NO VIEW TO SEE CLOCK IN AND OUT INFO
