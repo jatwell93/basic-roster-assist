@@ -2,21 +2,21 @@
 
 class WeeklyRosterGenerationService
   attr_reader :base_roster, :week_start_date
-  
+
   def initialize(base_roster:, week_start_date:)
     @base_roster = base_roster
     @week_start_date = week_start_date
     validate_parameters!
   end
-  
+
   def generate
     validate_parameters!
-    
+
     # Check if weekly roster already exists for this week
     if WeeklyRoster.exists?(base_roster: base_roster, week_start_date: week_start_date)
-      raise StandardError, 'Weekly roster already exists for this week'
+      raise StandardError, "Weekly roster already exists for this week"
     end
-    
+
     weekly_roster = WeeklyRoster.create!(
       name: base_roster.name,
       week_start_date: week_start_date,
@@ -25,30 +25,30 @@ class WeeklyRosterGenerationService
       user: base_roster.user,
       week_type: base_roster.week_type
     )
-    
+
     generate_weekly_shifts!(weekly_roster, base_roster.base_shifts)
     weekly_roster
   end
-  
+
   def week_range
-    [week_start_date, week_start_date + 6.days]
+    [ week_start_date, week_start_date + 6.days ]
   end
-  
+
   private
-  
+
   def validate_parameters!
-    raise ArgumentError, 'Base roster is required' unless base_roster
-    raise ArgumentError, 'Week start date is required' unless week_start_date
-    
+    raise ArgumentError, "Base roster is required" unless base_roster
+    raise ArgumentError, "Week start date is required" unless week_start_date
+
     unless base_roster.persisted?
-      raise ArgumentError, 'BaseRoster must be persisted'
+      raise ArgumentError, "BaseRoster must be persisted"
     end
-    
+
     unless base_roster.base_shifts.any?
-      raise StandardError, 'Base roster must have shifts to generate weekly roster'
+      raise StandardError, "Base roster must have shifts to generate weekly roster"
     end
   end
-  
+
   def generate_weekly_shifts!(weekly_roster, base_shifts)
     base_shifts.each do |base_shift|
       # Calculate the actual date for this shift in the week
@@ -74,9 +74,9 @@ class WeeklyRosterGenerationService
     # Convert day_of_week to integer if it's a string (from test data)
     day_of_week_int = if day_of_week.is_a?(String)
                         BaseShift.day_of_weeks[day_of_week] || day_of_week.to_i
-                      else
+    else
                         day_of_week
-                      end
+    end
 
     # day_of_week is 0-6 (Sunday=0, Monday=1, etc.)
     # week_start_date is the start of the week (typically Monday)
