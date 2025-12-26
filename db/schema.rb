@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_23_112712) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_26_015431) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -84,6 +84,30 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_23_112712) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "weekly_rosters", force: :cascade do |t|
+    t.bigint "base_roster_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.date "week_end_date", null: false
+    t.date "week_start_date", null: false
+    t.integer "week_type", default: 0, null: false
+    t.index ["base_roster_id"], name: "index_weekly_rosters_on_base_roster_id"
+    t.index ["user_id"], name: "index_weekly_rosters_on_user_id"
+  end
+
+  create_table "weekly_shifts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "day_of_week", null: false
+    t.time "end_time", null: false
+    t.integer "shift_type", null: false
+    t.time "start_time", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "weekly_roster_id", null: false
+    t.index ["weekly_roster_id"], name: "index_weekly_shifts_on_weekly_roster_id"
   end
 
   add_foreign_key "award_rates", "users"

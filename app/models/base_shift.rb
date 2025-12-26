@@ -16,8 +16,14 @@ class BaseShift < ApplicationRecord
   def end_after_start
     return unless start_time && end_time
 
+    # Allow overnight shifts where end_time is next day (e.g., 18:00 to 02:00)
+    # but validate that it's a reasonable overnight shift (at least 1 hour, max 23 hours)
     if end_time <= start_time
-      errors.add(:end_time, "must be after start time")
+      # This is an overnight shift - validate duration
+      duration_hours = ((end_time + 1.day) - start_time) / 3600
+      if duration_hours < 1 || duration_hours > 23
+        errors.add(:end_time, "must result in a shift between 1 and 23 hours")
+      end
     end
   end
 
