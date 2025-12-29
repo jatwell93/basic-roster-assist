@@ -26,9 +26,33 @@ class RostersController < ApplicationController
                                   .includes(weekly_shifts: [])
                                   .order(:start_date)
 
+    # Calculate sales vs wages percentage for the week
+    @sales_vs_wages_percentage = calculate_sales_vs_wages_percentage(start_of_week, end_of_week)
+
     # If no weekly rosters exist for this week, we could generate them
     # but for now just show what's available
     @week_start = start_of_week
     @week_end = end_of_week
+  end
+
+  private
+
+  def calculate_sales_vs_wages_percentage(start_date, end_date)
+    # Get total sales for the week
+    total_sales = current_user.sales_forecasts
+                              .where(start_date: start_date..end_date)
+                              .sum(:projected_sales)
+
+    # Get total wages for the week using the roster cost calculator
+    total_wages = 0
+    @weekly_rosters.each do |roster|
+      total_wages += RosterCostCalculator.new(roster).calculate_total_cost
+    end
+
+    # Calculate percentage: (sales / wages) * 100, or nil if no wages
+    return nil if total_wages.zero?
+    return nil if total_sales.zero?
+
+    ((total_sales / total_wages) * 100).round(1)
   end
 end

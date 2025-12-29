@@ -81,7 +81,7 @@
     <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-md">
       <div class="px-4 py-5 sm:p-6">
         <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Weekly Summary</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
           <% total_shifts = @weekly_rosters.sum { |wr| wr.weekly_shifts.count } %>
           <% total_hours = @weekly_rosters.sum do |wr| %>
             <% wr.weekly_shifts.sum do |shift| %>
@@ -137,6 +137,30 @@
                   <dl>
                     <dt class="text-sm font-medium text-gray-500 truncate">Staff Required</dt>
                     <dd class="text-lg font-medium text-gray-900"><%= total_shifts %></dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+              <div class="flex items-center">
+                <div class="shrink-0">
+                  <svg class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div class="ml-5 w-0 flex-1">
+                  <dl>
+                    <dt class="text-sm font-medium text-gray-500 truncate">Sales vs Wages %</dt>
+                    <dd class="text-lg font-medium text-gray-900">
+                      <% if @sales_vs_wages_percentage %>
+                        <%= "#{@sales_vs_wages_percentage}%" %>
+                      <% else %>
+                        <span class="text-gray-400">N/A</span>
+                      <% end %>
+                    </dd>
                   </dl>
                 </div>
               </div>
