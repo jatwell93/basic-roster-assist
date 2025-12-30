@@ -915,9 +915,8 @@ rails s                              # Start server on localhost:3000
 bundle exec rails console            # Interactive Rails shell
 
 # Testing
-bundle exec rails test               # All tests
-bundle exec rails test test/file.rb  # Single test file
-bundle exec rails test:system        # Browser tests only
+bundle exec rspec              # All tests
+bundle exec rspec spec/controllers/file.rb  # Single test file
 
 # Linting/Quality
 bundle exec rubocop                  # Check for style issues

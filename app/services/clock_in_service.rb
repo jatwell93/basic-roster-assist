@@ -62,7 +62,10 @@ class ClockInService
   def validate_shift_duration!(entry)
     return unless entry.clock_in # Safety check
 
-    hours_worked = entry.hours_worked
+    # Calculate potential duration if we set clock_out to now
+    potential_duration = (Time.current - entry.clock_in).to_i
+    hours_worked = potential_duration / 3600.0
+
     if hours_worked > MAX_SHIFT_HOURS
       raise ShiftTooLongError, "Shift exceeds maximum duration of 10 hours"
     end

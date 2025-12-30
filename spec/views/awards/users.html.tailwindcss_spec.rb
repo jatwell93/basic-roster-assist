@@ -8,8 +8,8 @@ RSpec.describe "awards/users.html.tailwindcss", type: :view do
   let(:award2) { create(:award_rate, user: user_with_awards, award_code: 'TEST002', classification: 'Level 2') }
 
   before do
-    assign(:users, [user_with_awards, user_without_awards])
-    assign(:award_rates, [award1, award2])
+    assign(:users, [ user_with_awards, user_without_awards ])
+    assign(:award_rates, [ award1, award2 ])
     sign_in admin_user
   end
 
