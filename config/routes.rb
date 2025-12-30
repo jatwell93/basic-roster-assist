@@ -14,7 +14,11 @@ Rails.application.routes.draw do
 
   # Admin-only award management routes
   constraints ->(request) { request.env["warden"].user&.admin? } do
-    resources :awards
+    resources :awards do
+      collection do
+        get :users
+      end
+    end
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

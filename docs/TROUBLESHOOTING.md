@@ -767,3 +767,37 @@ If none of these solutions work:
 - **[ADVANCED.md](ADVANCED.md)** - Advanced features
 - **[FAQ.md](FAQ.md)** - Frequently asked questions
 - **[INSTALLING.md](INSTALLING.md)** - Installation guide
+
+
+---
+## ✅ Problem Fixed!
+
+Your Beads configuration issue has been resolved. Here's what was wrong and how we fixed it:
+
+### **The Problem**
+- Beads was configured to sync to `master` branch (`sync.branch = master`)
+- You work on `main` branch and merge feature branches to `main`
+- This created a branch mismatch where task updates went to `master` while code went to `main`
+- The sync-branch feature was also causing worktree conflicts
+
+### **The Solution**
+1. **Disabled sync-branch feature**: Set `sync.branch = ""` (empty string)
+2. **Committed configuration changes**: Updated Beads to work directly with your current branch
+
+### **Why This Works**
+- Beads now syncs directly to your current branch (`main`) instead of trying to create separate commits on a different branch
+- No more worktree conflicts since we're not using the sync-branch feature
+- Task tracking data stays in sync with your code changes
+
+### **Verification**
+The final `bd sync` completed successfully with:
+- ✅ No worktree errors
+- ✅ Proper import/export of issue data
+- ✅ Clean sync with remote repository
+
+### **Going Forward**
+- Beads will now automatically sync task updates to your current branch
+- No need to worry about branch mismatches anymore
+- Task tracking will stay consistent with your development workflow
+
+Your Beads setup is now properly configured for your `main` branch workflow! 🎉
