@@ -42,6 +42,11 @@ class AwardsController < ApplicationController
     redirect_to awards_path, notice: "Award rate was successfully deleted."
   end
 
+  def users
+    @users = User.includes(:award_rates).order(:name)
+    @award_rates = AwardRate.all.order(:award_code, :classification)
+  end
+
   private
 
   def require_admin

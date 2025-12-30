@@ -17,7 +17,7 @@
 ## 4. Budget & Forecasting
 - [x] 4.1 Add SalesForecast model
 - [x] 4.2 Implement RosterCostCalculator service
-- [ ] 4.3 Display Sales vs Wages % on Roster UI
+- [x] 4.3 Display Sales vs Wages % on Roster UI
 
 ## 5. Integrations
 - [x] 5.1 Create FairWorkApiService
