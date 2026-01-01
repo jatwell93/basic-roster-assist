@@ -66,8 +66,17 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
-  config.before :suite do
+
+  # Ensure Devise mappings are loaded before tests run
+  config.before(:suite) do
     Warden.test_mode!
+    # Force loading of User model to ensure Devise mappings are set up
+    User
+  end
+
+  # Clean up after each test
+  config.after(:each) do
+    Warden.test_reset!
   end
 end
 
