@@ -8,6 +8,7 @@ class BaseRoster < ApplicationRecord
 
   validates :name, presence: true
   validates :starts_at, :ends_at, :week_type, presence: true
+  validates :weekly_sales_forecast, numericality: { greater_than: 0 }, allow_nil: true
 
   validate :end_after_start
 

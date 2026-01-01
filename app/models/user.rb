@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :base_rosters, dependent: :destroy
 
   validates :hourly_rate, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :yearly_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :wage_percentage_goal, numericality: { greater_than: 0, less_than_or_equal_to: 100 }, allow_nil: true
 
   # PIN setter for clock-in/out functionality
   def pin=(pin)

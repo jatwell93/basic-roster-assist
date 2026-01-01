@@ -12,6 +12,73 @@
     </div>
   </div>
 
+  <!-- Budget Overview Card -->
+  <% if @budget_display %>
+    <div class="mb-8 <%= budget_status_color(@budget_display[:is_customized]) %> border rounded-lg shadow-sm p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold <%= budget_status_text_color(@budget_display[:is_customized]) %>">Budget Overview</h2>
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium <%= budget_status_badge_color(@budget_display[:is_customized]) %>">
+          <%= budget_status_label(@budget_display[:is_customized]) %>
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Sales Forecast -->
+        <div>
+          <p class="text-sm font-medium <%= budget_status_text_color(@budget_display[:is_customized]) %>">Sales Forecast</p>
+          <p class="text-2xl font-bold <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-2">
+            <%= format_currency(@budget_display[:sales]) %>
+          </p>
+          <p class="text-xs <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-1 opacity-75">
+            <% if @budget_display[:is_customized] %>
+              Custom amount (edited)
+            <% else %>
+              Baseline: yearly sales ÷ 52 weeks
+            <% end %>
+          </p>
+        </div>
+
+        <!-- Scheduled Wages -->
+        <div>
+          <p class="text-sm font-medium <%= budget_status_text_color(@budget_display[:is_customized]) %>">Scheduled Wages</p>
+          <p class="text-2xl font-bold <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-2">
+            <%= format_currency(@budget_display[:wages]) %>
+          </p>
+          <p class="text-xs <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-1 opacity-75">
+            <% if @budget_display[:wages].zero? %>
+              No shifts assigned yet
+            <% else %>
+              Based on hourly rate × scheduled hours
+            <% end %>
+          </p>
+        </div>
+
+        <!-- Wages Percentage -->
+        <div>
+          <p class="text-sm font-medium <%= budget_status_text_color(@budget_display[:is_customized]) %>">Wages vs Sales %</p>
+          <p class="text-2xl font-bold <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-2">
+            <%= format_percentage(@budget_display[:percentage]) %>
+          </p>
+          <p class="text-xs <%= budget_status_text_color(@budget_display[:is_customized]) %> mt-1 opacity-75">
+            <% if @budget_display[:percentage] %>
+              (Wages ÷ Sales) × 100
+            <% else %>
+              Enter sales or assign shifts
+            <% end %>
+          </p>
+        </div>
+      </div>
+
+      <% if !@budget_display[:is_customized] && @budget_display[:sales] > 0 %>
+        <div class="mt-4 pt-4 border-t <%= @budget_display[:is_customized] ? 'border-green-200' : 'border-blue-200' %>">
+          <p class="text-xs <%= budget_status_text_color(@budget_display[:is_customized]) %> opacity-75">
+            💡 Tip: Customize sales forecast and wages for special weeks (e.g., holidays). This will change the badge to green.
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
   <div class="bg-white shadow overflow-hidden sm:rounded-md">
     <div class="px-4 py-5 sm:px-6">
       <h3 class="text-lg leading-6 font-medium text-gray-900">Weekly Schedule</h3>

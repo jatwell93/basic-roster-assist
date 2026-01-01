@@ -12,6 +12,10 @@ class RostersController < ApplicationController
   def show
     @roster = current_user.base_rosters.includes(:base_shifts).find(params[:id])
     @shifts_by_day = @roster.base_shifts.group_by(&:day_of_week)
+
+    # Calculate budget and sales vs wages data
+    @budget_calculator = RosterBudgetCalculator.new(@roster)
+    @budget_display = @budget_calculator.sales_and_wages_display
   end
 
   def calendar
