@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     resources :awards do
       collection do
         get :users
+        get :assign_award
+        post :assign_to_user
+        delete :remove_from_user
       end
     end
   end

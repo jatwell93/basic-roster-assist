@@ -1,0 +1,133 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Assign Awards to <%= @user.name.presence || 'User' %></h1>
+      <p class="mt-2 text-sm text-gray-600">Manage Fair Work award assignments for accurate wage calculations</p>
+    </div>
+    <div class="flex space-x-3">
+      <%= link_to 'All Users', users_awards_path, class: 'bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium' %>
+      <%= link_to 'Award Rates', awards_path, class: 'bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium' %>
+      <%= link_to 'Back to Dashboard', root_path, class: 'bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md text-sm font-medium' %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Current Assignments -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Current Award Assignments</h3>
+        <p class="mt-1 text-sm text-gray-500">Awards currently assigned to this user</p>
+      </div>
+      <div class="px-4 py-5 sm:p-6">
+        <% if @user_awards.any? %>
+          <div class="space-y-3">
+            <% @user_awards.each do |award| %>
+              <div class="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div>
+                  <p class="text-sm font-medium text-blue-900">
+                    <%= award.award_code %> - <%= award.classification %>
+                  </p>
+                  <p class="text-sm text-blue-700">
+                    $<%= sprintf('%.2f', award.rate) %>/hour
+                  </p>
+                  <p class="text-xs text-blue-600 mt-1">
+                    Effective: <%= award.effective_date.strftime('%B %d, %Y') %>
+                  </p>
+                </div>
+                <div class="flex space-x-2">
+                  <%= button_to 'Remove Assignment', remove_from_user_awards_path(user_id: @user.id, award_rate_id: award.id), 
+                              method: :delete,
+                              class: 'bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-sm font-medium',
+                              data: { confirm: 'Are you sure you want to remove this award assignment?' } %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No awards assigned</h3>
+            <p class="mt-1 text-sm text-gray-500">This user currently has no award assignments.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Available Awards -->
+    <div class="bg-white shadow rounded-lg">
+      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Available Awards</h3>
+        <p class="mt-1 text-sm text-gray-500">Unassigned awards that can be assigned to this user</p>
+      </div>
+      <div class="px-4 py-5 sm:p-6">
+        <% if @available_awards.any? %>
+          <div class="space-y-3">
+            <% @available_awards.each do |award| %>
+              <div class="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-lg p-4">
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    <%= award.award_code %> - <%= award.classification %>
+                  </p>
+                  <p class="text-sm text-gray-700">
+                    $<%= sprintf('%.2f', award.rate) %>/hour
+                  </p>
+                  <p class="text-xs text-gray-600 mt-1">
+                    Effective: <%= award.effective_date.strftime('%B %d, %Y') %>
+                  </p>
+                </div>
+                <div>
+                  <%= button_to 'Assign to User', assign_to_user_awards_path(user_id: @user.id, award_rate_id: award.id), 
+                              method: :post,
+                              class: 'bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm font-medium' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No available awards</h3>
+            <p class="mt-1 text-sm text-gray-500">All awards are currently assigned to users.</p>
+            <div class="mt-4">
+              <%= link_to 'Create New Award', new_award_path, class: 'bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Summary -->
+  <div class="mt-8 bg-white shadow rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">User Summary</h3>
+      <p class="mt-1 text-sm text-gray-500">Overview of this user's award assignments</p>
+    </div>
+    <div class="px-4 py-5 sm:p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <h4 class="text-sm font-medium text-blue-900">User Information</h4>
+          <p class="mt-1 text-sm text-blue-700"><%= @user.name.presence || 'Unnamed User' %></p>
+          <p class="mt-1 text-sm text-blue-700"><%= @user.email %></p>
+          <p class="mt-1 text-sm text-blue-700">Role: <%= @user.role.humanize %></p>
+        </div>
+        
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+          <h4 class="text-sm font-medium text-green-900">Current Assignments</h4>
+          <p class="mt-2 text-2xl font-bold text-green-700"><%= @user_awards.count %></p>
+          <p class="mt-1 text-sm text-green-700">Active award assignments</p>
+        </div>
+        
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+          <h4 class="text-sm font-medium text-purple-900">Available Awards</h4>
+          <p class="mt-2 text-2xl font-bold text-purple-700"><%= @available_awards.count %></p>
+          <p class="mt-1 text-sm text-purple-700">Unassigned awards</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
