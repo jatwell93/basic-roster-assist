@@ -6,6 +6,14 @@ Rails.application.routes.draw do
     collection do
       get :calendar
     end
+    member do
+      get :available_staff, format: :json
+      post :check_conflicts, format: :json
+      post :finalize, format: :json
+      post :shifts, action: :create_shift, format: :json
+      patch :shifts, action: :update_shift, format: :json
+      delete :shifts, action: :destroy_shift, format: :json
+    end
   end
 
   # Clock-in routes for staff PIN verification

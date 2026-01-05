@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_01_041457) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_112041) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -94,17 +94,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_041457) do
   create_table "weekly_rosters", force: :cascade do |t|
     t.bigint "base_roster_id", null: false
     t.datetime "created_at", null: false
+    t.datetime "finalized_at"
+    t.bigint "finalized_by_id"
     t.string "name", null: false
+    t.integer "status", default: 0
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.date "week_end_date", null: false
     t.date "week_start_date", null: false
     t.integer "week_type", default: 0, null: false
     t.index ["base_roster_id"], name: "index_weekly_rosters_on_base_roster_id"
+    t.index ["finalized_by_id"], name: "index_weekly_rosters_on_finalized_by_id"
     t.index ["user_id"], name: "index_weekly_rosters_on_user_id"
   end
 
   create_table "weekly_shifts", force: :cascade do |t|
+    t.bigint "assigned_staff_id"
+    t.time "break_end_time"
+    t.time "break_start_time"
     t.datetime "created_at", null: false
     t.integer "day_of_week", null: false
     t.time "end_time", null: false
@@ -112,6 +119,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_041457) do
     t.time "start_time", null: false
     t.datetime "updated_at", null: false
     t.bigint "weekly_roster_id", null: false
+    t.index ["assigned_staff_id"], name: "index_weekly_shifts_on_assigned_staff_id"
     t.index ["weekly_roster_id"], name: "index_weekly_shifts_on_weekly_roster_id"
   end
 
@@ -120,4 +128,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_01_041457) do
   add_foreign_key "base_shifts", "base_rosters"
   add_foreign_key "sales_forecasts", "users"
   add_foreign_key "time_entries", "users"
+  add_foreign_key "weekly_rosters", "users", column: "finalized_by_id"
+  add_foreign_key "weekly_shifts", "users", column: "assigned_staff_id"
 end

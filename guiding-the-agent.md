@@ -39,5 +39,5 @@ agent to leverage Beads' capabilities for long-term planning, dependency
 tracking, and consistent work management across sessions.
 
 ## Notes
-1. You need to make sure openspec is getting updated at the end of each session with beads. beads only had 7 task out of 22 and might have been missing more. Openspec had not been updated with 0/22 of the tasks done. No change logs were being used.Rather than rerunning tests we should export that. Need to simplify the state machine and add in openspec checkpoints. Implement beads viewer. Remove ubs and just run it here and there. Update git process to push feature branch and then I can create a pull request. 
+1. You need to make sure openspec is getting updated at the end of each session with beads. beads only had 7 task out of 22 and might have been missing more. Openspec had not been updated with 0/22 of the tasks done. No change logs were being used.Rather than rerunning tests we should export that. Need to simplify the state machine and add in openspec checkpoints. Implement beads viewer. Remove ubs and just run it here and there. Update git process to push feature branch and then I can create a pull request. Beads needs to be treated as continuous. Tasks are getting half done then closed.
 2. 

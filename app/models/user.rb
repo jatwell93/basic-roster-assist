@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :sales_forecasts, dependent: :destroy
   has_many :award_rates, dependent: :destroy
   has_many :base_rosters, dependent: :destroy
+  has_many :weekly_rosters, dependent: :destroy
 
   validates :hourly_rate, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :yearly_sales, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
