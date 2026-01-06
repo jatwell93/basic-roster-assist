@@ -23,7 +23,7 @@ class WeeklyRoster < ApplicationRecord
       assigned_staff_ids = weekly_shifts.select(:assigned_staff_id).distinct.pluck(:assigned_staff_id).compact
       assigned_staff_ids.each do |staff_id|
         staff = User.find(staff_id)
-        staff_shifts = weekly_shifts.where(assigned_staff_id: staff_id)
+        staff_shifts = weekly_shifts.where(assigned_staff_id: staff_id).to_a
         RosterMailer.send_shifts(self, staff, staff_shifts).deliver_later
       end
     end

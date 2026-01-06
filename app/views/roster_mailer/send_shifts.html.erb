@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hi <%= @staff.name %>,</p>
+
+    <p>Your roster has been finalized for the week of <strong><%= @week_start %> to <%= @week_end %></strong>.</p>
+
+    <h3>Your Assigned Shifts:</h3>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+      <tr style="background-color: #f0f0f0;">
+        <th>Day</th>
+        <th>Time</th>
+        <th>Break</th>
+        <th>Paid Hours</th>
+      </tr>
+      <% @staff_shifts.each do |shift| %>
+      <tr>
+        <td><%= shift.day_of_week.titleize %></td>
+        <td><%= format_time(shift.start_time) %> - <%= format_time(shift.end_time) %></td>
+        <td>
+          <% if shift.break_start_time %>
+            <%= format_time(shift.break_start_time) %> - <%= format_time(shift.break_end_time) %>
+          <% else %>
+            —
+          <% end %>
+        </td>
+        <td><%= shift.paid_hours %> hrs</td>
+      </tr>
+      <% end %>
+      <tr style="background-color: #e8e8e8; font-weight: bold;">
+        <td colspan="3">Total Hours This Week:</td>
+        <td><%= @total_hours %> hours</td>
+      </tr>
+    </table>
+
+    <p style="margin-top: 20px;">Please review your shifts and contact your manager if you have any questions.</p>
+
+    <p>Best regards,<br/>
+    <%= @weekly_roster.name %></p>
+  </body>
+</html>

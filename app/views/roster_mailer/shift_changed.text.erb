@@ -1,0 +1,21 @@
+Hi <%= @staff.name %>,
+
+Your shift has been updated in the <%= @weekly_roster.name %> roster.
+
+Shift Details:
+<%= "=" * 50 %>
+
+Old Time:
+  <%= @old_shift_data[:start_time] %> - <%= @old_shift_data[:end_time] %>
+
+New Time:
+  <%= format_time(@shift.start_time) %> - <%= format_time(@shift.end_time) %>
+
+<% if @shift.break_start_time %>Break: <%= format_time(@shift.break_start_time) %> - <%= format_time(@shift.break_end_time) %><% end %>
+
+Paid Hours: <%= @shift.paid_hours %>
+
+Please see the app for full details. If you have any questions, contact your manager.
+
+Best regards,
+<%= @weekly_roster.name %>
