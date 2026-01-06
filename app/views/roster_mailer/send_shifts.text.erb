@@ -1,0 +1,20 @@
+Hi <%= @staff.name %>,
+
+Your roster has been finalized for the week of <%= @week_start %> to <%= @week_end %>.
+
+Your Assigned Shifts:
+<%= "=" * 50 %>
+
+<% @staff_shifts.each do |shift| %>
+<%= shift.day_of_week.titleize %>
+  Time: <%= format_time(shift.start_time) %> - <%= format_time(shift.end_time) %>
+  <% if shift.break_start_time %>Break: <%= format_time(shift.break_start_time) %> - <%= format_time(shift.break_end_time) %><% end %>
+  Paid Hours: <%= shift.paid_hours %>
+
+<% end %>
+Total Hours This Week: <%= @total_hours %> hours
+
+Please review your shifts and contact your manager if you have any questions.
+
+Best regards,
+<%= @weekly_roster.name %>

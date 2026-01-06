@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Hi <%= @staff.name %>,</p>
+
+    <p>Your shift has been <strong>updated</strong> in the <strong><%= @weekly_roster.name %></strong> roster.</p>
+
+    <h3>Shift Changes:</h3>
+
+    <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+      <tr style="background-color: #f0f0f0;">
+        <th>Detail</th>
+        <th>Old</th>
+        <th>New</th>
+      </tr>
+      <tr>
+        <td><strong>Time</strong></td>
+        <td><%= @old_shift_data[:start_time] %> - <%= @old_shift_data[:end_time] %></td>
+        <td><%= format_time(@shift.start_time) %> - <%= format_time(@shift.end_time) %></td>
+      </tr>
+      <% if @shift.break_start_time %>
+      <tr>
+        <td><strong>Break</strong></td>
+        <td>
+          <% if @old_shift_data[:break_start_time] %>
+            <%= @old_shift_data[:break_start_time] %> - <%= @old_shift_data[:break_end_time] %>
+          <% else %>
+            —
+          <% end %>
+        </td>
+        <td><%= format_time(@shift.break_start_time) %> - <%= format_time(@shift.break_end_time) %></td>
+      </tr>
+      <% end %>
+    </table>
+
+    <p style="margin-top: 20px;"><strong>Paid Hours:</strong> <%= @shift.paid_hours %> hours</p>
+
+    <p>Please see the app for full details. If you have any questions, contact your manager.</p>
+
+    <p>Best regards,<br/>
+    <%= @weekly_roster.name %></p>
+  </body>
+</html>
