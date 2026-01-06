@@ -22,24 +22,28 @@
 The application manages employee scheduling, time tracking, and wage calculations for businesses:
 
 - **User Management**: Authentication, roles, and PIN-based clock-in/out
-- **Roster Management**: Template-based scheduling with shift assignments
+- **Roster Management**: Template-based scheduling (Base Rosters) and instantiated weekly rosters with staff assignment
+- **Weekly Rosters**: Generated from base rosters with actual staff assignments, break times, and finalization workflow
 - **Time Tracking**: Clock in/out with automatic wage calculations
 - **Award Compliance**: Integration with Fair Work API for award rates
 - **Sales Forecasting**: Business intelligence for staffing decisions
 
-Data flows from Users → Base Rosters → Base Shifts for scheduling, and Users → Time Entries for actual hours worked.
+Data flows from Users → Base Rosters → Base Shifts for scheduling templates, and Users → Weekly Rosters → Weekly Shifts for actual assignments. Users also have Time Entries for clock in/out tracking.
 
 ## Mermaid diagram
 
 ```mermaid
 erDiagram
     User ||--o{ BaseRoster : creates
+    User ||--o{ WeeklyRoster : creates
     User ||--o{ TimeEntry : tracks
     User ||--o{ SalesForecast : manages
     User ||--o{ AwardRate : maintains
+    User ||--o{ WeeklyShift : assigned_to
 
-    BaseRoster ||--o{ BaseShift :contains
-
+    BaseRoster ||--o{ BaseShift : contains
+    BaseRoster ||--o{ WeeklyRoster : generates
+    WeeklyRoster ||--o{ WeeklyShift : contains
 
     BaseRoster {
         bigint id
@@ -55,6 +59,28 @@ erDiagram
         integer day_of_week
         time start_time
         time end_time
+        integer shift_type
+    }
+    WeeklyRoster {
+        bigint id
+        bigint base_roster_id
+        bigint user_id
+        string name
+        date week_start_date
+        date week_end_date
+        integer status
+        datetime finalized_at
+        bigint finalized_by_id
+    }
+    WeeklyShift {
+        bigint id
+        bigint weekly_roster_id
+        bigint assigned_staff_id
+        integer day_of_week
+        time start_time
+        time end_time
+        time break_start_time
+        time break_end_time
         integer shift_type
     }
     TimeEntry {
@@ -183,6 +209,123 @@ erDiagram
 - Represents scheduling templates, not actual worked shifts
 - Week type affects how roster periods repeat
 - Used as container for base_shifts that define actual schedule
+- Can generate multiple weekly_rosters for different time periods
+
+---
+
+### `weekly_rosters`
+**Purpose**: Instantiated rosters generated from base rosters for specific weeks, with staff assignments and finalization tracking for the calendar-based shift management UI.
+
+#### Columns
+| Column | Type | Null | Default | Notes |
+|---|---|---|---|---|
+| id | bigint | NO |  | Primary key |
+| base_roster_id | bigint | NO |  | FK → base_rosters |
+| user_id | bigint | NO |  | FK → users (roster owner) |
+| name | string | NO |  | Weekly roster display name |
+| week_start_date | date | NO |  | Start of week (typically Monday) |
+| week_end_date | date | NO |  | End of week (typically Sunday) |
+| week_type | integer | NO | 0 | Enum: weekly=0, fortnightly=1 |
+| status | integer | NO | 0 | Enum: draft=0, finalized=1 |
+| finalized_at | datetime | YES |  | Timestamp when roster was finalized |
+| finalized_by_id | bigint | YES |  | FK → users (who finalized) |
+| created_at | datetime | NO |  |  |
+| updated_at | datetime | NO |  |  |
+
+#### Indexes
+| Name | Columns | Unique | Notes |
+|---|---|---|---|
+| index_weekly_rosters_on_base_roster_id | base_roster_id | NO | Foreign key index |
+| index_weekly_rosters_on_user_id | user_id | NO | Foreign key index |
+| index_weekly_rosters_on_finalized_by_id | finalized_by_id | NO | Foreign key index |
+
+#### Foreign keys
+- `weekly_rosters.base_roster_id → base_rosters.id`
+- `weekly_rosters.user_id → users.id`
+- `weekly_rosters.finalized_by_id → users.id`
+
+#### Relationships (Rails)
+- `belongs_to :base_roster`
+- `belongs_to :user`
+- `belongs_to :finalized_by, class_name: "User", optional: true`
+- `has_many :weekly_shifts, dependent: :destroy`
+
+#### Validations / invariants (Rails)
+- `week_start_date`, `week_end_date` must be present
+- `week_end_date` must be after `week_start_date`
+- `status` enum with default :draft
+
+#### Data lifecycle
+- Cascade delete through dependent: :destroy on weekly_shifts
+- `finalized_at` and `finalized_by_id` set when roster is finalized
+- Can be edited even after finalization
+
+#### Notes
+- Generated from base_rosters for specific weeks
+- Forms the foundation for the calendar-based shift management UI
+- Finalization workflow triggers email notifications to assigned staff
+- Supports business intelligence tracking
+- Can be drafted, finalized, and modified with re-notifications on changes
+
+---
+
+### `weekly_shifts`
+**Purpose**: Individual shift assignments within a weekly roster, with assigned staff, break times, and wage calculations for calendar-based scheduling.
+
+#### Columns
+| Column | Type | Null | Default | Notes |
+|---|---|---|---|---|
+| id | bigint | NO |  | Primary key |
+| weekly_roster_id | bigint | NO |  | FK → weekly_rosters |
+| assigned_staff_id | bigint | YES |  | FK → users (assigned staff member) |
+| day_of_week | integer | NO |  | Enum: sun=0, mon=1, tue=2, wed=3, thu=4, fri=5, sat=6 |
+| start_time | time | NO |  | Shift start time |
+| end_time | time | NO |  | Shift end time |
+| shift_type | integer | NO |  | Enum: morning=0, afternoon=1, evening=2, night=3 |
+| break_start_time | time | YES |  | Unpaid break start time (optional) |
+| break_end_time | time | YES |  | Unpaid break end time (optional) |
+| created_at | datetime | NO |  |  |
+| updated_at | datetime | NO |  |  |
+
+#### Indexes
+| Name | Columns | Unique | Notes |
+|---|---|---|---|
+| index_weekly_shifts_on_weekly_roster_id | weekly_roster_id | NO | Foreign key index |
+| index_weekly_shifts_on_assigned_staff_id | assigned_staff_id | NO | Foreign key index |
+
+#### Foreign keys
+- `weekly_shifts.weekly_roster_id → weekly_rosters.id`
+- `weekly_shifts.assigned_staff_id → users.id`
+
+#### Relationships (Rails)
+- `belongs_to :weekly_roster`
+- `belongs_to :assigned_staff, class_name: "User", optional: true`
+
+#### Validations / invariants (Rails)
+- `start_time`, `end_time` must be present
+- `end_time` must be after `start_time`
+- Start and end times must be on 15-minute intervals (quarter hours: 0, 15, 30, 45)
+- `break_start_time` and `break_end_time` must both be present or both nil
+- If present, break times must be within shift times
+- No overlapping shifts for same staff member on same day (custom validation)
+
+#### Data lifecycle
+- Cascade delete through weekly_roster dependent: :destroy
+- Can be created, updated, or deleted individually
+- Updates to finalized rosters trigger shift change notifications
+
+#### Business methods
+- `paid_hours()` - calculates shift duration minus break duration
+- `wage_cost()` - calculates paid_hours × assigned_staff.hourly_rate
+- Scopes: `by_day(day_of_week)`, `for_staff(staff_id)`
+
+#### Notes
+- Represents actual staff assignments for a week
+- Supports 15-minute interval scheduling for flexibility
+- Optional unpaid break times (typically 30+ min for 4+ hr shifts)
+- Prevents scheduling conflicts for same employee
+- Used by calendar UI for interactive shift management
+- Integrates with wage calculations for budget tracking
 
 ---
 
@@ -364,7 +507,9 @@ erDiagram
 - ✅ Consider counter caches (not needed - no frequent counting queries)
 - ✅ Use appropriate data types (decimal for money, date/time for temporal)
 - ✅ Encrypt sensitive data (PIN encryption with AES-256)
-- ✅ Validate data at model level (comprehensive validations)
-- ✅ Use enums for controlled vocabularies (role, week_type, day_of_week, etc.)
-- ✅ Implement business logic in models (duration, wage calculations)
-- ✅ Use scopes for common queries (active, completed, etc.)
+- ✅ Validate data at model level (comprehensive validations including 15-min intervals)
+- ✅ Use enums for controlled vocabularies (role, week_type, day_of_week, status, shift_type, etc.)
+- ✅ Implement business logic in models (duration, paid_hours, wage calculations)
+- ✅ Use scopes for common queries (active, completed, by_day, for_staff, etc.)
+- ✅ Prevent scheduling conflicts at database level (validation in model)
+- ✅ Support break time tracking for Fair Work compliance
