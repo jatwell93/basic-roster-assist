@@ -2,11 +2,13 @@ Rails.application.routes.draw do
   devise_for :users
 
   # Roster management routes
-  resources :rosters, only: [ :index, :show, :new ] do
+  resources :rosters, only: [ :index, :show, :new, :create, :edit, :update ] do
+    resources :base_shifts, only: [ :new, :create, :edit, :update, :destroy ]
     collection do
       get :calendar
     end
     member do
+      post :generate
       get :available_staff, format: :json
       post :check_conflicts, format: :json
       post :finalize, format: :json

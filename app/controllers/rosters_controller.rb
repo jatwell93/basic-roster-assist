@@ -11,6 +11,16 @@ class RostersController < ApplicationController
     @roster = current_user.base_rosters.new
   end
 
+  def create
+    @roster = current_user.base_rosters.build(roster_params)
+
+    if @roster.save
+      redirect_to roster_path(@roster), notice: "Roster created successfully."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   def show
     @roster = current_user.base_rosters.includes(:base_shifts).find(params[:id])
     @shifts_by_day = @roster.base_shifts.group_by(&:day_of_week)
@@ -20,17 +30,54 @@ class RostersController < ApplicationController
     @budget_display = @budget_calculator.sales_and_wages_display
   end
 
+  def generate
+    @roster = current_user.base_rosters.find(params[:id])
+    
+    unless params[:week_start_date].present?
+      redirect_to roster_path(@roster), alert: "Please select a week start date."
+      return
+    end
+
+    begin
+      week_start = Date.parse(params[:week_start_date])
+      
+      # Ensure it's a Monday
+      unless week_start.monday?
+        redirect_to roster_path(@roster), alert: "Week start date must be a Monday."
+        return
+      end
+
+      service = WeeklyRosterGenerationService.new(
+        base_roster: @roster,
+        week_start_date: week_start
+      )
+      
+      @weekly_roster = service.generate
+      redirect_to calendar_rosters_path(week_start: @weekly_roster.week_start_date), notice: "Weekly roster generated successfully for week of #{@weekly_roster.week_start_date}."
+    rescue ArgumentError
+      redirect_to roster_path(@roster), alert: "Invalid date format."
+    rescue StandardError => e
+      redirect_to roster_path(@roster), alert: "Failed to generate roster: #{e.message}"
+    end
+  end
+
   def calendar
-    # Get current week (Monday to Sunday)
-    today = Date.current
-    start_of_week = today.beginning_of_week(:monday)
+    # Get requested week or default to current
+    if params[:week_start].present?
+      start_of_week = Date.parse(params[:week_start]).beginning_of_week(:monday)
+    elsif params[:date].present?
+      start_of_week = Date.parse(params[:date]).beginning_of_week(:monday)
+    else
+      start_of_week = Date.current.beginning_of_week(:monday)
+    end
+    
     end_of_week = start_of_week + 6.days
 
     # Load weekly rosters for current user within this week
     @weekly_rosters = current_user.weekly_rosters
-                                  .where(start_date: start_of_week..end_of_week)
+                                  .where(week_start_date: start_of_week)
                                   .includes(weekly_shifts: [])
-                                  .order(:start_date)
+                                  .order(:week_start_date)
 
     # Calculate sales vs wages percentage for the week
     @sales_vs_wages_percentage = calculate_sales_vs_wages_percentage(start_of_week, end_of_week)
@@ -156,14 +203,13 @@ class RostersController < ApplicationController
     # Get total wages for the week using the roster cost calculator
     total_wages = 0
     @weekly_rosters.each do |roster|
-      total_wages += RosterCostCalculator.new(roster).calculate_total_cost
+      total_wages += RosterCostCalculator.new(roster: roster).calculate_total_cost
     end
 
-    # Calculate percentage: (sales / wages) * 100, or nil if no wages
-    return nil if total_wages.zero?
+    # Calculate percentage: (wages / sales) * 100, or nil if no sales
     return nil if total_sales.zero?
 
-    ((total_sales / total_wages) * 100).round(1)
+    ((total_wages / total_sales) * 100).round(1)
   end
 
   def set_weekly_roster
@@ -215,5 +261,11 @@ class RostersController < ApplicationController
       assigned_staff_id: shift.assigned_staff_id,
       assigned_staff_name: shift.assigned_staff&.name
     }
+  end
+
+  private
+
+  def roster_params
+    params.require(:base_roster).permit(:name, :starts_at, :ends_at, :week_type, :weekly_sales_forecast)
   end
 end

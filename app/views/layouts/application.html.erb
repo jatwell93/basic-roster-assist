@@ -56,7 +56,12 @@
       </div>
     </nav>
 
-    <main class="container mx-auto mt-8 px-5 flex">
+    <main class="container mx-auto mt-8 px-5">
+      <% flash.each do |key, value| %>
+        <div class="mb-4 rounded-md p-4 <%= key == 'notice' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700' %>">
+          <%= value %>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
   </body>
