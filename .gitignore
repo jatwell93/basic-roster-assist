@@ -60,3 +60,5 @@ rb-bug-scan-report.txt
 
 # bv (beads viewer) local config and caches
 .bv/
+# random ignore files
+/.ignore
