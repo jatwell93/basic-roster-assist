@@ -55,6 +55,15 @@ User.find_or_create_by!(email: "staff3@example.com") do |user|
 end
 
 puts "Test users created successfully!"
+
+puts "Creating work sections for manager..."
+manager = User.find_by(email: "manager@example.com")
+if manager
+  ["Dispensary", "Shop Floor", "Cosmetics", "Vaccinations"].each do |name|
+    manager.work_sections.find_or_create_by!(name: name)
+  end
+end
+
 puts ""
 puts "Login credentials for testing:"
 puts "Admin:    admin@example.com    / password123    / PIN: 1234"

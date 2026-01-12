@@ -15,12 +15,26 @@
   <div class="grid grid-cols-2 gap-4">
     <div>
       <%= form.label :day_of_week, "Day of Week", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= form.select :day_of_week, BaseShift.day_of_weeks.keys.map { |k| [k.titleize, k] }, {}, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <%= form.select :day_of_week, BaseShift.day_of_weeks.keys.map { |k| [k.titleize, k] }, { selected: params[:day_of_week] || @base_shift.day_of_week }, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
     </div>
 
     <div>
-      <%= form.label :shift_type, "Shift Type", class: "block text-sm font-medium text-gray-700 mb-1" %>
-      <%= form.select :shift_type, BaseShift.shift_types.keys.map { |k| [k.titleize, k] }, {}, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      <%= form.label :work_section_id, "Section / Role", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <% 
+         sections = current_user.work_sections.map { |ws| [ws.name, ws.id] } 
+         # Add standard shift types as fallback option groups if we wanted, but for now let's just use selects
+      %>
+      <div class="space-y-2">
+        <%= form.select :work_section_id, sections, { include_blank: "None (Use Shift Type)" }, class: "block w-full px-3 py-2 border border-blue-500 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+        
+        <div class="relative flex items-center">
+          <div class="flex-grow border-t border-gray-300"></div>
+          <span class="flex-shrink-0 mx-2 text-gray-400 text-xs">OR Default Type</span>
+          <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <%= form.select :shift_type, BaseShift.shift_types.keys.map { |k| [k.titleize, k] }, {}, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+      </div>
     </div>
   </div>
 

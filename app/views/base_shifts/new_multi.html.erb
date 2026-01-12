@@ -1,0 +1,118 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <h1 class="text-2xl font-bold text-gray-900">Add Multiple Shifts</h1>
+    <p class="mt-2 text-sm text-gray-600">Create multiple shifts at once for <%= @roster.name %></p>
+  </div>
+
+  <%= form_with url: create_multi_roster_base_shifts_path(@roster), method: :post, class: "space-y-6", data: { controller: "multi-shifts" } do |form| %>
+    
+    <div id="shifts-container" class="space-y-4" data-multi-shifts-target="container">
+      <!-- Initial shift form -->
+      <div class="p-4 border border-gray-300 rounded-md bg-white relative shift-entry" data-index="0">
+        <button type="button" class="absolute top-2 right-2 text-gray-400 hover:text-red-600" data-action="click->multi-shifts#removeShift" data-index="0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <%= label_tag "shifts[0][day_of_week]", "Day of Week", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= select_tag "shifts[0][day_of_week]", options_for_select(BaseShift.day_of_weeks.keys.map { |k| [k.titleize, k] }, params[:day_of_week]), class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= label_tag "shifts[0][work_section_id]", "Section", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= select_tag "shifts[0][work_section_id]", 
+                options_for_select(current_user.work_sections.map { |ws| [ws.name, ws.id] }, include_blank: "None (Use Type)"), 
+                class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <%= label_tag "shifts[0][start_time]", "Start Time", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= time_field_tag "shifts[0][start_time]", nil, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+
+          <div>
+            <%= label_tag "shifts[0][end_time]", "End Time", class: "block text-sm font-medium text-gray-700 mb-1" %>
+            <%= time_field_tag "shifts[0][end_time]", nil, class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add shift button -->
+    <div class="flex items-center justify-between">
+      <button type="button" 
+              class="inline-flex items-center px-4 py-2 border border-blue-600 text-sm font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              data-action="click->multi-shifts#addShift">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+        Add Another Shift
+      </button>
+
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", roster_path(@roster), class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        <%= submit_tag "Create All Shifts", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script>
+// Stimulus controller embedded for simplicity
+(function() {
+  let shiftIndex = 1;
+  
+  document.addEventListener('click', function(e) {
+    // Add shift
+    if (e.target.closest('[data-action*="addShift"]')) {
+      e.preventDefault();
+      const container = document.getElementById('shifts-container');
+      const template = container.querySelector('.shift-entry').cloneNode(true);
+      
+      // Update indices in the template
+      template.setAttribute('data-index', shiftIndex);
+      template.querySelectorAll('select, input').forEach(field => {
+        const name = field.getAttribute('name');
+        if (name) {
+          field.setAttribute('name', name.replace(/\[\d+\]/, `[${shiftIndex}]`));
+        }
+        field.value = '';
+      });
+      
+      template.querySelectorAll('label').forEach(label => {
+        const forAttr = label.getAttribute('for');
+        if (forAttr) {
+          label.setAttribute('for', forAttr.replace(/\[\d+\]/, `[${shiftIndex}]`));
+        }
+      });
+      
+      const removeBtn = template.querySelector('[data-action*="removeShift"]');
+      if (removeBtn) {
+        removeBtn.setAttribute('data-index', shiftIndex);
+      }
+      
+      container.appendChild(template);
+      shiftIndex++;
+    }
+    
+    // Remove shift
+    if (e.target.closest('[data-action*="removeShift"]')) {
+      e.preventDefault();
+      const container = document.getElementById('shifts-container');
+      const entries = container.querySelectorAll('.shift-entry');
+      
+      // Only allow removal if more than 1 shift
+      if (entries.length > 1) {
+        e.target.closest('.shift-entry').remove();
+      } else {
+        alert('You must have at least one shift');
+      }
+    }
+  });
+})();
+</script>

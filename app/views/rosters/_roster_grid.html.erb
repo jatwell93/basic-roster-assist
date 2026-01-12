@@ -1,0 +1,130 @@
+<div class="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20 sticky left-0 bg-gray-50 z-10 border-r border-gray-200">Time</th>
+        <% @budget_data[:daily_breakdown].each do |day| %>
+          <th scope="col" class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-200 min-w-[140px]">
+            <%= day[:day].capitalize %>
+          </th>
+        <% end %>
+        <th scope="col" class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-100 min-w-[100px]">Total</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200 relative">
+      <!-- Time Rows -->
+      <% 
+        start_time = Time.parse(@roster.opening_time.strftime("%H:%M"))
+        end_time = Time.parse(@roster.closing_time.strftime("%H:%M"))
+        interval = @roster.interval_minutes.minutes
+        current_time = start_time
+      %>
+      
+      <% while current_time < end_time do %>
+        <tr class="h-12"> <!-- Fixed height for positioning -->
+          <td class="px-2 py-2 text-xs text-gray-400 border-r border-gray-100 sticky left-0 bg-white z-10 top-0 align-top">
+            <%= current_time.strftime("%H:%M") %>
+          </td>
+          
+          <% @budget_data[:daily_breakdown].each_with_index do |day_data, col_index| %>
+            <td class="relative p-0 border-r border-gray-100 hover:bg-gray-50">
+              <!-- Grid lines -->
+              <div class="absolute inset-0 border-b border-gray-50 border-dashed pointer-events-none"></div>
+              
+              <!-- Shifts Overlay (Only render on the first row to avoid repetition, positioning absolute) -->
+              <% if current_time == start_time %>
+                <% 
+                   day_shifts = @shifts_by_day[day_data[:day]] || [] 
+                   # Calculate pixel height: 12 (h-12) corresponds to 3rem = 48px per interval
+                   # So 1 min = 48px / interval_minutes
+                   pixels_per_minute = 48.0 / @roster.interval_minutes 
+                %>
+
+                <div class="absolute top-0 left-0 w-full h-[2000px] pointer-events-none">
+                  <% day_shifts.each do |shift| %>
+                    <%
+                       shift_start = Time.parse(shift.start_time.strftime("%H:%M"))
+                       shift_end = Time.parse(shift.end_time.strftime("%H:%M"))
+                       
+                       # Calculate offset from grid start
+                       minutes_from_start = (shift_start - start_time) / 60
+                       duration_minutes = (shift_end - shift_start) / 60
+                       
+                       top_px = minutes_from_start * pixels_per_minute
+                       height_px = duration_minutes * pixels_per_minute
+                    %>
+                    <div class="absolute left-1 right-1 rounded px-2 py-1 text-xs border bg-blue-100 border-blue-300 text-blue-800 shadow-sm pointer-events-auto cursor-pointer hover:bg-blue-200 z-20 overflow-hidden"
+                         style="top: <%= top_px %>px; height: <%= height_px %>px; min-height: 24px;">
+                         
+                      <%= link_to edit_roster_base_shift_path(@roster, shift), class: "block w-full h-full" do %>
+                        <div class="font-semibold truncate">
+                          <%= shift.work_section&.name || shift.shift_type.titleize %>
+                        </div>
+                        <div class="text-[10px] opacity-75">
+                          <%= shift.start_time.strftime("%H:%M") %> - <%= shift.end_time.strftime("%H:%M") %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  
+                  <!-- Add Shift Button (Overlay) -->
+                   <!-- Ideally this would be clickable regions, but for simplicity we'll add a 'Add' button at the top of each col -->
+                </div>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+        <% current_time += interval %>
+      <% end %>
+      
+      <!-- Summary Footer -->
+      <%= form_with model: @roster, url: roster_path(@roster), method: :patch, data: { turbo: false } do |f| %>
+        <tr class="bg-gray-50 border-t-2 border-gray-200">
+          <td class="px-2 py-3 text-xs font-bold text-gray-700 sticky left-0 bg-gray-50 z-10 text-right">
+            Daily Budget
+          </td>
+          <% @budget_data[:daily_breakdown].each_with_index do |day, idx| %>
+            <td class="px-2 py-3 text-center border-r border-gray-200">
+               <%= f.number_field "daily_budget_allocations[#{day[:day]}]", value: day[:budget], step: 10, class: "w-20 px-2 py-1 text-sm font-bold text-gray-900 border border-gray-300 rounded text-center focus:ring-blue-500 focus:border-blue-500" %>
+            </td>
+          <% end %>
+          <td class="px-2 py-3 text-center bg-gray-100">
+            <button type="submit" class="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+          </td>
+        </tr>
+      <% end %>
+      <tr class="bg-gray-50 border-t border-gray-100">
+        <td class="px-2 py-3 text-xs font-bold text-gray-700 sticky left-0 bg-gray-50 z-10 text-right">
+          Variance
+        </td>
+        <% total_daily_variance = @budget_data[:daily_breakdown].sum { |d| d[:budget] } - @budget_data[:total_budget] %>
+        <% @budget_data[:daily_breakdown].each do |day| %>
+          <td class="px-2 py-3 text-center border-r border-gray-200">
+             <div class="text-sm font-bold <%= day[:variance] >= 0 ? 'text-green-600' : 'text-red-600' %>">
+               <%= number_to_currency(day[:variance], precision: 0) %>
+             </div>
+          </td>
+        <% end %>
+        <td class="px-2 py-3 text-center bg-gray-100">
+          <div class="text-sm font-bold <%= total_daily_variance.abs < 1 ? 'text-green-600' : 'text-red-600' %>">
+            <%= number_to_currency(total_daily_variance, precision: 0, signed: true) %>
+          </div>
+          <div class="text-[10px] text-gray-500">Total</div>
+        </td>
+      </tr>
+      
+       <!-- Actions Row -->
+      <tr class="bg-white border-t border-gray-200">
+        <td class="px-2 py-3 sticky left-0 bg-white z-10">
+          <%= link_to "+ Add Multiple", new_multi_roster_base_shifts_path(@roster), class: "text-xs text-green-600 hover:text-green-800 font-medium" %>
+        </td>
+        <% @budget_data[:daily_breakdown].each do |day| %>
+          <td class="px-2 py-3 text-center border-r border-gray-200">
+             <%= link_to "+ Add Shift", new_roster_base_shift_path(@roster, day_of_week: day[:day]), class: "text-xs text-blue-600 hover:text-blue-800 font-medium" %>
+          </td>
+        <% end %>
+        <td class="px-2 py-3 text-center bg-gray-100"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

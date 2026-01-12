@@ -17,15 +17,21 @@ RSpec.describe BaseShift, type: :model do
   describe 'time validation' do
     let(:base_roster) { create(:base_roster) }
     let(:valid_shift) { build(:base_shift, base_roster: base_roster, start_time: '08:00', end_time: '16:00') }
-    let(:invalid_shift) { build(:base_shift, base_roster: base_roster, start_time: '16:00', end_time: '08:00') }
+    let(:overnight_shift) { build(:base_shift, base_roster: base_roster, start_time: '18:00', end_time: '02:00') }
+    let(:invalid_duration) { build(:base_shift, base_roster: base_roster, start_time: '09:00', end_time: '09:00') }
 
     it 'is valid when end time is after start time' do
       expect(valid_shift).to be_valid
     end
 
-    it 'is invalid when end time is before start time' do
-      expect(invalid_shift).to be_invalid
-      expect(invalid_shift.errors[:end_time]).to include('must be after start time')
+    it 'is valid when invalid overnight shift (user intentionally allows it)' do
+       # The system now allows overnight shifts
+       expect(overnight_shift).to be_valid
+    end
+
+    it 'is invalid when duration is not reasonable (e.g. 24 hours)' do
+      expect(invalid_duration).to be_invalid
+      expect(invalid_duration.errors[:end_time]).to include('must result in a shift between 1 and 23 hours')
     end
   end
 

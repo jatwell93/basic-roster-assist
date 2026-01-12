@@ -5,8 +5,10 @@ class BaseShift < ApplicationRecord
   enum :shift_type, { morning: 0, afternoon: 1, evening: 2, night: 3 }
 
   belongs_to :base_roster
+  belongs_to :work_section, optional: true
 
-  validates :day_of_week, :shift_type, :start_time, :end_time, presence: true
+  validates :day_of_week, :start_time, :end_time, presence: true
+  validates :shift_type, presence: true, unless: -> { work_section_id.present? }
 
   validate :end_after_start
   validate :no_overlapping_shifts

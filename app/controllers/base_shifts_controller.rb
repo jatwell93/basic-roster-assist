@@ -1,6 +1,6 @@
 class BaseShiftsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_roster, only: [ :new, :create, :edit, :update, :destroy ]
+  before_action :set_roster, only: [ :new, :create, :edit, :update, :destroy, :new_multi, :create_multi ]
   before_action :set_base_shift, only: [ :edit, :update, :destroy ]
   before_action :authorize_roster_owner!
 
@@ -15,6 +15,37 @@ class BaseShiftsController < ApplicationController
       redirect_to roster_path(@roster), notice: "Shift created successfully."
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+  
+  def new_multi
+    # Render the multi-shift creation form
+  end
+  
+  def create_multi
+    shifts_params = params[:shifts]
+    created_count = 0
+    errors = []
+    
+    shifts_params.each do |index, shift_attrs|
+      shift = @roster.base_shifts.build(
+        day_of_week: shift_attrs[:day_of_week],
+        start_time: shift_attrs[:start_time],
+        end_time: shift_attrs[:end_time],
+        work_section_id: shift_attrs[:work_section_id].presence
+      )
+      
+      if shift.save
+        created_count += 1
+      else
+        errors << "Shift #{index.to_i + 1}: #{shift.errors.full_messages.join(', ')}"
+      end
+    end
+    
+    if errors.empty?
+      redirect_to roster_path(@roster), notice: "Successfully created #{created_count} shifts."
+    else
+      redirect_to roster_path(@roster), alert: "Created #{created_count} shifts. Errors: #{errors.join('; ')}"
     end
   end
 
@@ -50,6 +81,6 @@ class BaseShiftsController < ApplicationController
   end
 
   def base_shift_params
-    params.require(:base_shift).permit(:day_of_week, :shift_type, :start_time, :end_time)
+    params.require(:base_shift).permit(:day_of_week, :shift_type, :start_time, :end_time, :work_section_id)
   end
 end

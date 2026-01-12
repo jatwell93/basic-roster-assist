@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_112041) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_11_084202) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -26,12 +26,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_112041) do
   end
 
   create_table "base_rosters", force: :cascade do |t|
+    t.time "closing_time"
     t.datetime "created_at", null: false
+    t.jsonb "daily_budget_allocations", default: {}
     t.date "ends_at", null: false
+    t.decimal "estimated_hourly_rate", precision: 8, scale: 2
+    t.integer "interval_minutes", default: 30
     t.boolean "is_sales_customized", default: false
     t.boolean "is_wages_customized", default: false
     t.string "name", null: false
+    t.time "opening_time"
     t.date "starts_at", null: false
+    t.decimal "target_wage_percentage", precision: 5, scale: 2
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.integer "week_type", default: 0, null: false
@@ -44,10 +50,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_112041) do
     t.datetime "created_at", null: false
     t.integer "day_of_week", null: false
     t.time "end_time", null: false
-    t.integer "shift_type", null: false
+    t.integer "shift_type"
     t.time "start_time", null: false
     t.datetime "updated_at", null: false
+    t.bigint "work_section_id"
     t.index ["base_roster_id"], name: "index_base_shifts_on_base_roster_id"
+    t.index ["work_section_id"], name: "index_base_shifts_on_work_section_id"
   end
 
   create_table "sales_forecasts", force: :cascade do |t|
@@ -123,11 +131,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_112041) do
     t.index ["weekly_roster_id"], name: "index_weekly_shifts_on_weekly_roster_id"
   end
 
+  create_table "work_sections", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_work_sections_on_user_id"
+  end
+
   add_foreign_key "award_rates", "users"
   add_foreign_key "base_rosters", "users"
   add_foreign_key "base_shifts", "base_rosters"
+  add_foreign_key "base_shifts", "work_sections"
   add_foreign_key "sales_forecasts", "users"
   add_foreign_key "time_entries", "users"
   add_foreign_key "weekly_rosters", "users", column: "finalized_by_id"
   add_foreign_key "weekly_shifts", "users", column: "assigned_staff_id"
+  add_foreign_key "work_sections", "users"
 end

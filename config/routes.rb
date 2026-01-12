@@ -3,7 +3,12 @@ Rails.application.routes.draw do
 
   # Roster management routes
   resources :rosters, only: [ :index, :show, :new, :create, :edit, :update ] do
-    resources :base_shifts, only: [ :new, :create, :edit, :update, :destroy ]
+    resources :base_shifts, only: [ :new, :create, :edit, :update, :destroy ] do
+      collection do
+        get :new_multi
+        post :create_multi
+      end
+    end
     collection do
       get :calendar
     end

@@ -27,7 +27,20 @@ class RostersController < ApplicationController
 
     # Calculate budget and sales vs wages data
     @budget_calculator = RosterBudgetCalculator.new(@roster)
-    @budget_display = @budget_calculator.sales_and_wages_display
+    @budget_data = @budget_calculator.calculate
+  end
+  
+  def update
+    @roster = current_user.base_rosters.find(params[:id])
+    
+    if @roster.update(roster_params)
+      redirect_to roster_path(@roster), notice: "Roster updated successfully."
+    else
+      @shifts_by_day = @roster.base_shifts.group_by(&:day_of_week)
+      @budget_calculator = RosterBudgetCalculator.new(@roster)
+      @budget_data = @budget_calculator.calculate
+      render :show, status: :unprocessable_entity
+    end
   end
 
   def generate
@@ -266,6 +279,11 @@ class RostersController < ApplicationController
   private
 
   def roster_params
-    params.require(:base_roster).permit(:name, :starts_at, :ends_at, :week_type, :weekly_sales_forecast)
+    params.require(:base_roster).permit(
+      :name, :starts_at, :ends_at, :week_type, :weekly_sales_forecast,
+      :opening_time, :closing_time, :interval_minutes, :estimated_hourly_rate,
+      :target_wage_percentage,
+      daily_budget_allocations: {}
+    )
   end
 end
