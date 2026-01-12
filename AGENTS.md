@@ -248,40 +248,29 @@ end
 
 ### Project Structure
 
+Use codemap to when you need up-to-date structure of the project
+
 ```bash
-app/
-├── models/           # Business logic, validation, associations
-├── controllers/      # Request handling, coordination
-├── views/            # Templates (ERB, HAML)
-├── services/         # Business operations (multi-step workflows)
-├── workers/          # Background jobs (Sidekiq, etc.)
-├── decorators/       # View helpers, formatting
-├── mailers/          # Email composition
-└── jobs/             # Active Job classes
-
-config/
-├── routes.rb         # Route definitions
-├── database.yml      # DB configuration
-└── environments/     # Environment-specific settings
-
-db/
-├── migrate/          # Schema migrations
-└── seeds.rb          # Seed data
-
-spec/  (or test/)
-├── models/           # Model tests
-├── controllers/      # Controller tests
-├── services/         # Service tests
-└── fixtures/         # Test data
-
-lib/
-├── tasks/            # Rake tasks
-└── custom_modules/   # Custom code not in app/
-
-.beads/
-├── README.md         # Beads documentation
-└── beads.db          # Issue database (JSONL, git-tracked)
+codemap .                     # Project structure
+codemap --deps                # How files connect
+codemap --diff                # What changed vs main
+codemap --diff --ref <branch> # Changes vs specific branch
 ```
+
+## Required Usage
+
+**BEFORE starting any task**, run `codemap .` first.
+
+**ALWAYS run `codemap --deps` when:**
+- User asks how something works
+- Refactoring or moving code
+- Tracing imports or dependencies
+
+**ALWAYS run `codemap --diff` when:**
+- Reviewing or summarizing changes
+- Before committing code
+- User asks what changed
+- Use `--ref <branch>` when comparing against something other than main
 
 ---
 

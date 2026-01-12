@@ -11,7 +11,6 @@ class BaseShift < ApplicationRecord
   validates :shift_type, presence: true, unless: -> { work_section_id.present? }
 
   validate :end_after_start
-  validate :no_overlapping_shifts
 
   private
 
@@ -26,18 +25,6 @@ class BaseShift < ApplicationRecord
       if duration_hours < 1 || duration_hours > 23
         errors.add(:end_time, "must result in a shift between 1 and 23 hours")
       end
-    end
-  end
-
-  def no_overlapping_shifts
-    return unless base_roster && day_of_week && start_time && end_time
-
-    overlapping_shifts = BaseShift.where(base_roster: base_roster, day_of_week: day_of_week)
-                                  .where.not(id: id)
-                                  .where("start_time < ? AND end_time > ?", end_time, start_time)
-
-    if overlapping_shifts.exists?
-      errors.add(:base, "Overlaps with existing shift")
     end
   end
 end

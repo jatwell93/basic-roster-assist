@@ -1,0 +1,36 @@
+<div class="bg-white shadow-lg rounded-lg overflow-hidden">
+  <%= form_with(model: @work_section, class: "divide-y divide-gray-200") do |form| %>
+    <% if @work_section.errors.any? %>
+      <div class="px-6 py-4 bg-red-50 border-b border-red-200">
+        <div class="text-sm text-red-800">
+          <h3 class="font-medium">Please fix the following errors:</h3>
+          <ul class="mt-2 list-disc list-inside">
+            <% @work_section.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="px-6 py-6">
+      <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <div class="sm:col-span-4">
+          <%= form.label :name, "Section name", class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= form.text_field :name, placeholder: "e.g., Dispensary", class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
+          </div>
+          <p class="mt-2 text-sm text-gray-500">Add areas like Dispensary, Front of Shop, or Cosmetics.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-6 py-4 bg-gray-50 flex items-center justify-between">
+      <div class="text-sm text-gray-500">Sections help group shifts for reporting and UI filtering.</div>
+      <div class="flex space-x-3">
+        <%= link_to 'Cancel', work_sections_path, class: 'bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' %>
+        <%= form.submit(@work_section.persisted? ? 'Update Section' : 'Create Section', class: 'bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500') %>
+      </div>
+    </div>
+  <% end %>
+</div>

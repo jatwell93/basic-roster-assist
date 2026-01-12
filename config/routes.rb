@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :work_sections
+
   # Clock-in routes for staff PIN verification
   get "clock_in", to: "clock_ins#new", as: :new_clock_in
   post "clock_in", to: "clock_ins#create"

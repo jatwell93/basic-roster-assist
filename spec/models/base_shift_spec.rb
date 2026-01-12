@@ -41,9 +41,8 @@ RSpec.describe BaseShift, type: :model do
     let(:overlapping_shift) { build(:base_shift, base_roster: base_roster, day_of_week: :monday, start_time: '10:00', end_time: '14:00') }
     let(:non_overlapping_shift) { build(:base_shift, base_roster: base_roster, day_of_week: :monday, start_time: '14:00', end_time: '18:00') }
 
-    it 'is invalid when shift overlaps with existing shift' do
-      expect(overlapping_shift).to be_invalid
-      expect(overlapping_shift.errors[:base]).to include('Overlaps with existing shift')
+    it 'allows overlapping shifts in base templates' do
+      expect(overlapping_shift).to be_valid
     end
 
     it 'is valid when shift does not overlap with existing shift' do
