@@ -31,13 +31,52 @@ class RosterBudgetCalculator
   def sales_and_wages_display
     # Keep backward compatibility for existing views until fully migrated
     data = calculate
+    
+    # Calculate percentage: nil if sales or wages is zero
+    percentage = if data[:sales_forecast] > 0 && data[:total_actual] > 0
+                   ((data[:total_actual] / data[:sales_forecast]) * 100).round(2)
+                 else
+                   nil
+                 end
+    
     {
       status: data[:is_customized] ? :customized : :baseline,
       sales: data[:sales_forecast],
       wages: data[:total_actual],
-      percentage: data[:sales_forecast] > 0 ? ((data[:total_actual] / data[:sales_forecast]) * 100).round(2) : 0,
+      percentage: percentage,
       is_customized: data[:is_customized]
     }
+  end
+
+  # Individual calculator methods for testing/flexibility
+  def calculate_baseline_sales
+    return 0 unless @user&.yearly_sales
+    (@user.yearly_sales / 52.0).round(2)
+  end
+
+  def calculate_baseline_wages
+    return 0 unless @user&.wage_percentage_goal
+    sales = calculate_baseline_sales
+    (sales * (@user.wage_percentage_goal / 100.0)).round(2)
+  end
+
+  def calculate_actual_wages
+    shifts = @roster.base_shifts
+    return 0 if shifts.empty?
+    
+    shifts.sum do |shift|
+      duration = shift.end_time - shift.start_time
+      duration += 24.hours if duration < 0
+      hours = duration / 3600.0
+      hours * @hourly_rate
+    end.round(2)
+  end
+
+  def calculate_wages_percentage
+    sales = get_sales_amount
+    wages = calculate_actual_wages
+    return nil if sales.zero? || wages.zero?
+    ((wages / sales) * 100).round(2)
   end
 
   private

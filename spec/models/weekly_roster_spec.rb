@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe WeeklyRoster, type: :model do
+  let(:user) { create(:user) }
+  let(:base_roster) { create(:base_roster, user: user) }
+  subject { build(:weekly_roster, user: user, base_roster: base_roster) }
+
   describe 'validations' do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:week_start_date) }
@@ -29,7 +33,7 @@ RSpec.describe WeeklyRoster, type: :model do
 
     it 'is invalid when end date is before start date' do
       expect(invalid_roster).to be_invalid
-      expect(invalid_roster.errors[:week_end_date]).to include('must be after week start date')
+      expect(invalid_roster.errors[:week_end_date]).to include('must be after start date')
     end
   end
 end

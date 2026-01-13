@@ -280,10 +280,11 @@ codemap --diff --ref <branch> # Changes vs specific branch
 
 **Every Session (Mandatory)**:
 1. Output compliance statement (Section 1)
-2. Load README.md and AGENTS.md
+2. Load AGENTS.md
 3. Load relevant documentation (see below)
-4. Identify environment: development/test/staging/production
-5. **Check task priority**: `bd ready --json` (highest priority first)
+4. Run `git standup -d 7` and check the projects commits over the past seven (7) days
+5. Identify environment: development/test/staging/production
+6. **Check task priority**: `bd ready --json` (highest priority first)
 
 **Quick Bug Fix** (30 min):
 - [ ] Load relevant model/service/controller

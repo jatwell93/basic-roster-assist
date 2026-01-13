@@ -1,12 +1,11 @@
 class AwardRate < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   # Validations
   validates :award_code, presence: true, length: { minimum: 2 }
   validates :classification, presence: true
   validates :rate, presence: true, numericality: { greater_than: 0, precision: 8, scale: 2 }
   validates :effective_date, presence: true
-  validates :user, presence: true
 
   # Scopes
   scope :active, -> { where("effective_date <= ?", Date.current) }

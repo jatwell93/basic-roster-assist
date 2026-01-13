@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe WeeklyShift, type: :model do
+  let(:user) { create(:user) }
+  let(:base_roster) { create(:base_roster, user: user) }
+  let(:weekly_roster) { create(:weekly_roster, user: user, base_roster: base_roster) }
+  subject { build(:weekly_shift, weekly_roster: weekly_roster) }
+
   describe 'validations' do
     it { should validate_presence_of(:day_of_week) }
     it { should validate_presence_of(:shift_type) }
@@ -31,13 +36,15 @@ RSpec.describe WeeklyShift, type: :model do
 
   describe 'overlapping validation' do
     let(:weekly_roster) { create(:weekly_roster) }
-    let(:existing_shift) { create(:weekly_shift, weekly_roster: weekly_roster, day_of_week: :monday, start_time: '08:00', end_time: '12:00') }
-    let(:overlapping_shift) { build(:weekly_shift, weekly_roster: weekly_roster, day_of_week: :monday, start_time: '10:00', end_time: '14:00') }
+    let(:staff) { create(:user) }
+    let(:existing_shift) { create(:weekly_shift, weekly_roster: weekly_roster, assigned_staff: staff, day_of_week: :monday, start_time: '08:00', end_time: '12:00') }
+    let(:overlapping_shift) { build(:weekly_shift, weekly_roster: weekly_roster, assigned_staff: staff, day_of_week: :monday, start_time: '10:00', end_time: '14:00') }
     let(:non_overlapping_shift) { build(:weekly_shift, weekly_roster: weekly_roster, day_of_week: :monday, start_time: '14:00', end_time: '18:00') }
 
     it 'is invalid when shift overlaps with existing shift' do
+      existing_shift # Force creation
       expect(overlapping_shift).to be_invalid
-      expect(overlapping_shift.errors[:base]).to include('Overlaps with existing shift')
+      expect(overlapping_shift.errors[:base]).to include("#{staff.name} already has a shift at this time")
     end
 
     it 'is valid when shift does not overlap with existing shift' do

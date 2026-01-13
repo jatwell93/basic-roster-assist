@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_11_084202) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_13_115135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -21,7 +21,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_11_084202) do
     t.date "effective_date"
     t.decimal "rate"
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_award_rates_on_user_id"
   end
 
@@ -118,13 +118,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_11_084202) do
 
   create_table "weekly_shifts", force: :cascade do |t|
     t.bigint "assigned_staff_id"
-    t.time "break_end_time"
-    t.time "break_start_time"
+    t.datetime "break_end_time"
+    t.datetime "break_start_time"
     t.datetime "created_at", null: false
     t.integer "day_of_week", null: false
-    t.time "end_time", null: false
+    t.datetime "end_time", null: false
     t.integer "shift_type", null: false
-    t.time "start_time", null: false
+    t.datetime "start_time", null: false
     t.datetime "updated_at", null: false
     t.bigint "weekly_roster_id", null: false
     t.index ["assigned_staff_id"], name: "index_weekly_shifts_on_assigned_staff_id"

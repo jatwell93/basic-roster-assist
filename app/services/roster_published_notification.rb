@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class RosterPublishedNotification
   # Custom error for when roster has no associated user
   class NoUserError < StandardError
@@ -19,6 +21,9 @@ class RosterPublishedNotification
     send_notification_email
 
     OpenStruct.new(success?: true, roster: roster)
+  rescue NoUserError
+    # Re-raise user errors - these are configuration/data issues that should be addressed
+    raise
   rescue StandardError => e
     # Log the error but don't fail the service - email delivery failures shouldn't break roster publishing
     Rails.logger.error("Failed to send roster published notification for roster #{roster.id}: #{e.message}")

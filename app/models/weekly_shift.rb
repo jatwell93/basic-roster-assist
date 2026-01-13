@@ -5,7 +5,9 @@ class WeeklyShift < ApplicationRecord
   enum :day_of_week, { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 }
   enum :shift_type, { morning: 0, afternoon: 1, evening: 2, night: 3 }
 
+  validates :day_of_week, :shift_type, presence: true
   validates :start_time, :end_time, presence: true
+  validate :end_time_after_start_time
   validate :times_in_15_minute_intervals
   validate :no_overlapping_shifts_for_staff
   validate :break_times_valid
@@ -32,6 +34,14 @@ class WeeklyShift < ApplicationRecord
   end
 
   private
+
+  def end_time_after_start_time
+    return unless start_time && end_time
+
+    if end_time <= start_time
+      errors.add(:end_time, "must be after start time")
+    end
+  end
 
   def times_in_15_minute_intervals
     return unless start_time || end_time

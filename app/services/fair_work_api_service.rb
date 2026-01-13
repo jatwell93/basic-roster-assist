@@ -35,7 +35,7 @@ class FairWorkApiService
     if response.is_a?(Net::HTTPSuccess)
       parse_successful_response(response, award_code)
     else
-      handle_api_error(response)
+      return handle_api_error(response)
     end
   rescue JSON::ParserError => e
     Rails.logger.error("Fair Work API JSON parsing error for award #{award_code}: #{e.message}")
@@ -89,17 +89,17 @@ class FairWorkApiService
   end
 
   def handle_api_error(response)
-    error_message = case response
-    when Net::HTTPNotFound
+    error_message = if response.is_a?(Net::HTTPNotFound)
                       "Award not found"
-    when Net::HTTPClientError
+                    elsif response.is_a?(Net::HTTPClientError)
                       "Invalid request to Fair Work API"
-    when Net::HTTPServerError
+                    elsif response.is_a?(Net::HTTPServerError)
                       "Fair Work API is currently unavailable"
-    else
+                    else
                       "API request failed"
-    end
+                    end
 
+    Rails.logger.error("Fair Work API error: #{response.class} - #{error_message}")
     Result.new(success: false, error: error_message)
   end
 end

@@ -167,13 +167,12 @@ RSpec.describe ClockInService, type: :service do
       let!(:long_entry) { create(:time_entry, user: user, clock_in: 11.hours.ago, clock_out: nil) }
 
       it 'prevents clocking out after maximum hours' do
-        # This test will need to be implemented once we add the max hours validation
-        # For now, it should allow clocking out
+        # Test that shift exceeding 10 hours raises error
         service = described_class.new(user: user, pin: valid_pin)
 
         expect {
           service.clock_out
-        }.not_to raise_error
+        }.to raise_error(ClockInService::ShiftTooLongError, 'Shift exceeds maximum duration of 10 hours')
       end
     end
   end

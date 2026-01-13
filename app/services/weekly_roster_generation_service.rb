@@ -57,6 +57,12 @@ class WeeklyRosterGenerationService
       # Combine the date with the time from base_shift
       start_datetime = combine_date_and_time(shift_date, base_shift.start_time)
       end_datetime = combine_date_and_time(shift_date, base_shift.end_time)
+      
+      # Handle overnight shifts: if end_datetime <= start_datetime after combining,
+      # it means the shift goes overnight, so add 1 day to end_datetime
+      if end_datetime <= start_datetime
+        end_datetime = end_datetime + 1.day
+      end
 
       WeeklyShift.create!(
         weekly_roster: weekly_roster,
@@ -88,7 +94,15 @@ class WeeklyRosterGenerationService
     # time is a Time object, we need to change its date to match the shift date
     # while preserving the time components
     # Use the configured time zone to avoid timezone issues
-    combined = Time.zone.local(date.year, date.month, date.day, time.hour, time.min, time.sec)
-    combined
+    # Handle nil time by returning the date at midnight
+    return Time.zone.local(date.year, date.month, date.day, 0, 0, 0) if time.nil?
+    
+    # If time is a string, parse it first
+    if time.is_a?(String)
+      parsed_time = Time.zone.parse(time)
+      Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min, parsed_time.sec)
+    else
+      Time.zone.local(date.year, date.month, date.day, time.hour, time.min, time.sec)
+    end
   end
 end

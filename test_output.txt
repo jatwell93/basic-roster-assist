@@ -1,0 +1,1768 @@
+
+(process:24408): VIPS-WARNING **: 23:15:53.796: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-heif.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-heif.dll': The specified module could not be found.
+
+(process:24408): VIPS-WARNING **: 23:15:53.868: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-jxl.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-jxl.dll': The specified module could not be found.
+
+(process:24408): VIPS-WARNING **: 23:15:53.939: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-magick.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-magick.dll': The specified module could not be found.
+
+(process:24408): VIPS-WARNING **: 23:15:53.991: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-openslide.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-openslide.dll': The specified module could not be found.
+
+(process:24408): VIPS-WARNING **: 23:15:54.066: unable to load "C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-poppler.dll" -- 'C:\Ruby34-x64\msys64\ucrt64/lib/vips-modules-8.17\vips-poppler.dll': The specified module could not be found.
+C:/Ruby34-x64/lib/ruby/3.4.0/win32/registry.rb:2: warning: C:/Ruby34-x64/lib/ruby/3.4.0/fiddle/import.rb is found in fiddle, which will no longer be part of the default gems starting from Ruby 3.5.0.
+You can add fiddle to your Gemfile or gemspec to silence this warning.
+
+AwardsController
+  GET /awards
+    returns a success response (FAILED - 1)
+    assigns the requested award_rates (FAILED - 2)
+    assigns users for the dropdown (FAILED - 3)
+  GET /awards/new
+    returns a success response (FAILED - 4)
+    assigns a new award_rate (FAILED - 5)
+    assigns users for the dropdown (FAILED - 6)
+  POST /awards
+    with valid parameters
+      creates a new AwardRate (FAILED - 7)
+      redirects to the awards index (FAILED - 8)
+    with invalid parameters
+      does not create a new AwardRate (FAILED - 9)
+      renders the new template (FAILED - 10)
+  GET /awards/:id/edit
+    returns a success response (FAILED - 11)
+    assigns the requested award_rate (FAILED - 12)
+    assigns users for the dropdown (FAILED - 13)
+  PATCH /awards/:id
+    with valid parameters
+      updates the award_rate (FAILED - 14)
+      redirects to the awards index (FAILED - 15)
+    with invalid parameters
+      does not update the award_rate (FAILED - 16)
+      renders the edit template (FAILED - 17)
+  DELETE /awards/:id
+    destroys the requested award_rate (FAILED - 18)
+    redirects to the awards list (FAILED - 19)
+  GET /awards/users
+    returns a success response (FAILED - 20)
+    assigns users with their award rates (FAILED - 21)
+    assigns all award rates (FAILED - 22)
+  GET /awards/assign_award
+    returns a success response (FAILED - 23)
+    assigns the user (FAILED - 24)
+    assigns available awards (unassigned) (FAILED - 25)
+    assigns user awards (FAILED - 26)
+    assigns empty user awards for user without awards (FAILED - 27)
+  POST /awards/assign_to_user
+    when user has no existing assignment for the same award type
+      assigns the award to the user (FAILED - 28)
+      redirects to the assign_award page (FAILED - 29)
+      shows success notice (FAILED - 30)
+    when user already has an assignment for the same award type
+      removes the existing assignment before assigning the new one (FAILED - 31)
+  DELETE /awards/remove_from_user
+    removes the award assignment from the user (FAILED - 32)
+    redirects to the assign_award page (FAILED - 33)
+    shows success notice (FAILED - 34)
+  authorization
+    when user is not admin
+      redirects to root path for index (FAILED - 35)
+      redirects to root path for new (FAILED - 36)
+      redirects to root path for create (FAILED - 37)
+      redirects to root path for edit (FAILED - 38)
+      redirects to root path for update (FAILED - 39)
+      redirects to root path for destroy (FAILED - 40)
+      redirects to root path for users (FAILED - 41)
+      redirects to root path for assign_award (FAILED - 42)
+      redirects to root path for assign_to_user (FAILED - 43)
+      redirects to root path for remove_from_user (FAILED - 44)
+
+ClockInsController
+  GET #new
+DEPRECATION WARNING: resource received a hash argument only. Please use a keyword instead. Support to hash argument will be removed in Rails 8.2. (called from block in <main> at C:/Users/josha/basic-roster-assist/config/routes.rb:2)
+DEPRECATION WARNING: resource received a hash argument path. Please use a keyword instead. Support to hash argument will be removed in Rails 8.2. (called from block in <main> at C:/Users/josha/basic-roster-assist/config/routes.rb:2)
+DEPRECATION WARNING: resource received a hash argument path_names. Please use a keyword instead. Support to hash argument will be removed in Rails 8.2. (called from block in <main> at C:/Users/josha/basic-roster-assist/config/routes.rb:2)
+DEPRECATION WARNING: resource received a hash argument controller. Please use a keyword instead. Support to hash argument will be removed in Rails 8.2. (called from block in <main> at C:/Users/josha/basic-roster-assist/config/routes.rb:2)
+    returns http success
+    renders the new template
+  POST #create
+    with valid PIN for clock in
+      creates a new time entry
+      redirects to new_clock_in_path
+      sets success flash message
+    with valid PIN for clock out
+      updates the existing time entry
+      redirects to new_clock_in_path
+      sets success flash message with duration
+    with invalid PIN
+      does not create or update any time entries
+      renders the new template
+      sets error flash message
+C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/rspec-rails-8.0.2/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+      returns unprocessable_entity status
+    with blank PIN
+      does not create or update any time entries
+      renders the new template
+      sets error flash message
+C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/rspec-rails-8.0.2/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+      returns unprocessable_entity status
+    when already clocked in
+      updates the existing time entry (clock out)
+      redirects to new_clock_in_path
+      sets success flash message with duration
+      returns found status
+    when not clocked in but trying to clock out
+      creates a new time entry (clock in)
+      redirects to new_clock_in_path
+      sets success flash message
+      returns found status
+    when shift exceeds maximum duration
+      does not update the time entry
+      renders the new template
+      sets error flash message
+C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/rspec-rails-8.0.2/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+      returns unprocessable_entity status
+    when unexpected error occurs
+      renders the new template
+      sets generic error flash message
+      returns internal_server_error status
+
+AwardsHelper
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/awards_helper_spec.rb (PENDING: Not yet implemented)
+
+ClockInsHelper
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/clock_ins_helper_spec.rb (PENDING: Not yet implemented)
+
+RostersHelper
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/rosters_helper_spec.rb (PENDING: Not yet implemented)
+
+RosterMailer
+  #send_shifts
+    sends email to assigned staff member
+    has correct subject with roster name and dates
+    includes roster in email body (text version)
+    includes shift details in email body (text version)
+    includes staff name in greeting
+    includes break times when present
+    includes paid hours for each shift
+    generates both text and html versions
+    includes total hours in email body
+    formats times correctly in email body
+  #shift_changed
+    sends email to affected staff member
+    has correct subject indicating shift update
+    includes old times in email body
+    includes new times in email body
+    includes staff name in greeting
+    includes break time information
+    includes paid hours for updated shift
+    generates both text and html versions
+    renders HTML table with shift changes
+  email headers
+    sets from address on send_shifts email
+    sets from address on shift_changed email
+  integration with WeeklyRoster
+    works with finalize! method when called directly
+    works with notify_shift_change when called directly
+
+AwardRate
+  associations
+    is expected to belong to user required: true
+  validations
+    is expected to validate that :award_code cannot be empty/falsy
+    is expected to validate that the length of :award_code is at least 2
+    is expected to validate that :classification cannot be empty/falsy
+    is expected to validate that :rate cannot be empty/falsy
+    is expected to validate that :rate looks like a number greater than 0
+    example at ./spec/models/award_rate_spec.rb:14 (FAILED - 45)
+    is expected to validate that :effective_date cannot be empty/falsy
+    is expected to validate that :user cannot be empty/falsy
+  scopes
+    .active
+      returns only active award rates
+    .by_award_code
+      filters by award code
+    .for_user
+      filters by user
+    .current
+      returns current month rates (FAILED - 46)
+  class methods
+    .fetch_and_update_rates_for_user
+      when API call succeeds
+        creates or updates award rate with API data (FAILED - 47)
+        updates existing award rate (FAILED - 48)
+      when API call fails
+        returns nil and logs error (FAILED - 49)
+    .update_all_rates_from_api
+      updates rates for all users with award assignments (FAILED - 50)
+
+BaseRoster
+  validations
+    is expected to validate that :name cannot be empty/falsy
+    is expected to validate that :starts_at cannot be empty/falsy
+    is expected to validate that :ends_at cannot be empty/falsy
+    is expected to validate that :week_type cannot be empty/falsy
+    is expected to belong to user required: true
+    is expected to have many base_shifts dependent => destroy
+  enum validation
+    is expected to define :week_type as an enum backed by an integer with values ‹{weekly: 0, fortnightly: 1}›
+  date validation
+    is valid when end date is after start date
+    is invalid when end date is before start date
+
+BaseShift
+  validations
+    is expected to validate that :day_of_week cannot be empty/falsy
+    is expected to validate that :shift_type cannot be empty/falsy
+    is expected to validate that :start_time cannot be empty/falsy
+    is expected to validate that :end_time cannot be empty/falsy
+    is expected to belong to base_roster required: true
+  enum validation
+    is expected to define :day_of_week as an enum backed by an integer with values ‹{sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6}›
+    is expected to define :shift_type as an enum backed by an integer with values ‹{morning: 0, afternoon: 1, evening: 2, night: 3}›
+  time validation
+    is valid when end time is after start time
+    is valid when invalid overnight shift (user intentionally allows it)
+    is invalid when duration is not reasonable (e.g. 24 hours)
+  overlapping validation
+    allows overlapping shifts in base templates
+    is valid when shift does not overlap with existing shift
+
+SalesForecast
+  validations
+    is expected to validate that :forecast_type cannot be empty/falsy
+    is expected to validate that :start_date cannot be empty/falsy
+    is expected to validate that :end_date cannot be empty/falsy
+    is expected to validate that :projected_sales cannot be empty/falsy (FAILED - 51)
+    is expected to validate that :confidence_level cannot be empty/falsy (FAILED - 52)
+    is expected to belong to user required: true
+  enum validation
+    is expected to define :forecast_type as an enum backed by an integer with values ‹{weekly: 0, fortnightly: 1, monthly: 2}›
+  numericality validation
+    is expected to validate that :projected_sales looks like a number greater than or equal to 0
+    is expected to validate that :actual_sales looks like a number greater than or equal to 0 as long as it is not nil
+    is expected to validate that :confidence_level looks like a number greater than or equal to 0 and less than or equal to 100
+  date validation
+    is valid when end date is after start date
+    is invalid when end date is before start date
+  confidence level validation
+    is valid when confidence level is between 0 and 100
+    is invalid when confidence level is below 0
+    is invalid when confidence level is above 100
+  projected sales validation
+    is valid when projected sales is positive
+    is invalid when projected sales is negative
+  actual sales validation
+    is valid when actual sales is positive
+    is valid when actual sales is nil
+    is invalid when actual sales is negative
+  forecast type validation
+    is valid for weekly forecast type
+    is valid for fortnightly forecast type
+    is valid for monthly forecast type
+    is invalid for unknown forecast type (FAILED - 53)
+  scopes
+    returns weekly forecasts
+    returns fortnightly forecasts
+    returns monthly forecasts
+  instance methods
+    #variance
+      returns the difference between actual and projected sales (FAILED - 54)
+      returns 0 when actual sales is nil (FAILED - 55)
+    #variance_percentage
+      returns the variance as a percentage of projected sales (FAILED - 56)
+      returns 0 when actual sales is nil (FAILED - 57)
+      returns 0 when projected sales is 0 (FAILED - 58)
+    #accuracy
+      returns the accuracy percentage (FAILED - 59)
+      returns 0 when actual sales is nil (FAILED - 60)
+      returns 0 when projected sales is 0 (FAILED - 61)
+
+TimeEntry
+  validations
+    is expected to validate that :clock_in cannot be empty/falsy
+    is expected to belong to user required: true
+  associations
+    is expected to belong to user required: true
+  time validation
+    is valid when clock_out is after clock_in
+    is invalid when clock_out is before clock_in
+    is valid when clock_out is nil (ongoing entry)
+  business logic
+    #duration
+      calculates duration when both times are present
+      returns nil when clock_out is nil
+    #ongoing?
+      returns true when clock_out is nil
+      returns false when clock_out is present
+    #completed?
+      returns true when clock_out is present
+      returns false when clock_out is nil
+
+User
+  enums
+    is expected to define :role as an enum backed by an integer with values ‹{admin: 0, manager: 1, staff: 2}›
+  validations
+    is expected to validate that :email cannot be empty/falsy
+    is expected to validate that :password cannot be empty/falsy
+  default values
+    defaults to staff role
+
+WeeklyRoster
+  validations
+    is expected to validate that :name cannot be empty/falsy (FAILED - 62)
+    is expected to validate that :week_start_date cannot be empty/falsy (FAILED - 63)
+    is expected to validate that :week_end_date cannot be empty/falsy (FAILED - 64)
+    is expected to validate that :week_type cannot be empty/falsy (FAILED - 65)
+    is expected to validate that :base_roster_id cannot be empty/falsy (FAILED - 66)
+    is expected to validate that :user_id cannot be empty/falsy (FAILED - 67)
+    is expected to belong to user required: true
+    is expected to belong to base_roster required: true
+    is expected to have many weekly_shifts dependent => destroy
+  enum validation
+    is expected to define :week_type as an enum backed by an integer with values ‹{weekly: 0, fortnightly: 1}›
+  date validation
+    is valid when end date is after start date
+    is invalid when end date is before start date (FAILED - 68)
+
+WeeklyShift
+  validations
+    is expected to validate that :day_of_week cannot be empty/falsy (FAILED - 69)
+    is expected to validate that :shift_type cannot be empty/falsy (FAILED - 70)
+    is expected to validate that :start_time cannot be empty/falsy
+    is expected to validate that :end_time cannot be empty/falsy
+    is expected to belong to weekly_roster required: true
+  enum validation
+    is expected to define :day_of_week as an enum backed by an integer with values ‹{sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6}›
+    is expected to define :shift_type as an enum backed by an integer with values ‹{morning: 0, afternoon: 1, evening: 2, night: 3}›
+  time validation
+    is valid when end time is after start time
+    is invalid when end time is before start time (FAILED - 71)
+  overlapping validation
+    is invalid when shift overlaps with existing shift (FAILED - 72)
+    is valid when shift does not overlap with existing shift
+
+WorkSection
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/models/work_section_spec.rb (PENDING: Not yet implemented)
+
+Awards
+  GET /index
+    returns http success (FAILED - 73)
+  GET /new
+    returns http success (FAILED - 74)
+  GET /create
+    returns http success (FAILED - 75)
+  GET /edit
+    returns http success (FAILED - 76)
+  GET /update
+    returns http success (FAILED - 77)
+  GET /destroy
+    returns http success (FAILED - 78)
+
+ClockIns
+  GET /new
+    returns http success (FAILED - 79)
+  GET /create
+    returns http success (FAILED - 80)
+
+Auth Debug
+  works with sign_in
+  works with login_as
+
+RosterGeneration
+  POST /rosters/:id/generate
+    with valid params
+      generates a weekly roster and redirects to calendar
+    when week is not a Monday
+      redirects back with error
+    when empty date
+      redirects back with error
+    when roster already exists
+      does not duplicate and redirects with error
+
+Rosters show page with budget display
+  budget display integration
+    with baseline (not customized)
+      populates @budget_display data in controller
+    helper methods
+      formats currency correctly
+      formats percentage correctly
+      returns correct status label
+      returns correct color classes for baseline
+      returns correct color classes for customized
+    RosterBudgetCalculator integration
+      calculates baseline correctly
+      calculates customized correctly
+      handles zero wages (FAILED - 81)
+
+Rosters Calendar Functionality
+  WeeklyShift Validations
+    creates a valid shift with 15-minute intervals
+    rejects shifts with non-15-minute-interval times
+    prevents overlapping shifts for same staff
+    allows multiple shifts for different staff on same time
+  WeeklyShift Break Time Calculations
+    calculates paid hours excluding breaks
+    calculates wage cost based on paid hours and hourly rate
+  WeeklyRoster Finalization
+    marks roster as finalized
+    allows editing even after finalization
+  Shift Scopes
+    filters shifts by day
+    filters shifts by staff
+
+Rosters
+  GET /index
+    returns http success
+  GET /show
+    returns http success
+  GET /calendar
+    with sales forecast data
+      calculates and displays sales vs wages percentage
+    without sales forecast data
+      handles missing sales data gracefully
+    with zero sales
+      handles zero sales gracefully
+
+WorkSections
+  GET /work_sections
+    shows only current user's sections
+  POST /work_sections
+    creates a section for the current user
+C:/Ruby34-x64/lib/ruby/gems/3.4.0/gems/rspec-rails-8.0.2/lib/rspec/rails/matchers/have_http_status.rb:219: warning: Status code :unprocessable_entity is deprecated and will be removed in a future version of Rack. Please use :unprocessable_content instead.
+    renders errors when invalid
+  PATCH /work_sections/:id
+    updates a section
+  DELETE /work_sections/:id
+    deletes a section
+  authorization
+    prevents accessing another user's section
+
+ClockInService
+  #initialize
+    with valid user and pin
+      initializes successfully
+    with invalid parameters
+      raises error when user is nil
+      raises error when pin is nil
+  #clock_in
+    when user is not currently clocked in
+      creates a new time entry
+      returns the created time entry
+    when user is already clocked in
+      raises an error
+      does not create a new time entry
+    when PIN is invalid
+      raises an error
+  #clock_out
+    when user has an ongoing time entry
+      completes the ongoing time entry
+      returns the completed time entry
+    when user is not clocked in
+      raises an error
+    when PIN is invalid
+      raises an error
+      does not complete the time entry
+  business rules
+    maximum shift duration
+      prevents clocking out after maximum hours (FAILED - 82)
+
+FairWorkApiService
+  #fetch_award_rate
+    when API call succeeds
+      returns the award rate
+    when API call fails
+      returns a failure result (FAILED - 83)
+    when award is not found
+      returns a failure result with award not found message (FAILED - 84)
+    when response format is unexpected
+      returns a failure result with parsing error
+    when award code is blank
+      returns a failure result
+      returns a failure result for nil
+
+RosterBudgetCalculator
+  #calculate_baseline_sales
+    calculates weekly sales from yearly average and goal percentage (FAILED - 85)
+    returns 0 if user has no yearly_sales (FAILED - 86)
+  #calculate_baseline_wages
+    calculates weekly wages from baseline sales and goal percentage (FAILED - 87)
+    returns 0 if user has no wage_percentage_goal (FAILED - 88)
+  #calculate_actual_wages
+    sums wages from base shifts using user hourly rate (FAILED - 89)
+    returns 0 if no shifts assigned (FAILED - 90)
+  #calculate_wages_percentage
+    with sales and wages
+      calculates percentage as (wages / sales) * 100 (FAILED - 91)
+    with no sales
+      returns nil (FAILED - 92)
+    with zero wages
+      returns nil (FAILED - 93)
+  #sales_and_wages_display
+    baseline (not customized)
+      returns hash with baseline values and status :baseline
+    customized (user modified)
+      returns hash with custom values and status :customized
+
+RosterCostCalculator
+  #calculate_total_cost
+    when roster has shifts with assigned users
+      calculates total cost correctly
+    when roster has no shifts
+      returns zero cost
+    when users have no hourly rate
+      skips users without hourly rates
+    with invalid roster
+      raises an error when roster is nil
+
+RosterPublishedNotification
+  #initialize
+    accepts a roster parameter
+    raises error for nil roster
+  #call
+    when roster has associated user
+      sends email notification successfully (FAILED - 94)
+      handles email delivery failures gracefully (FAILED - 95)
+    when roster has no associated user
+      raises RosterPublishedNotification::NoUserError (FAILED - 96)
+    when roster is nil
+      raises ArgumentError during initialization
+    when roster user has no email
+      still attempts to send email (Rails handles nil email gracefully) (FAILED - 97)
+  error classes
+    defines NoUserError
+  service result
+    returns a successful result with roster (FAILED - 98)
+
+WageReportGenerator
+  #generate_csv
+    when users have time entries within date range
+      generates CSV with correct headers
+      calculates wages correctly
+      includes all users with time entries
+    when no time entries exist in date range
+      returns CSV with only headers
+    with user filter
+      filters results to specified users
+    with invalid date range
+      raises an error when start_date is after end_date
+      raises an error when dates are nil
+    with time entries outside date range
+      excludes time entries outside date range
+    with incomplete time entries
+      excludes incomplete time entries from calculations
+
+WeeklyRosterGenerationService
+  #generate
+    with valid base roster
+      creates weekly roster with correct attributes
+      creates weekly shifts based on base shifts
+      handles overnight shifts correctly
+    with fortnightly base roster
+      creates weekly roster with fortnightly type
+    with invalid parameters
+      raises error when base roster is nil
+      raises error when week_start_date is nil
+      raises error when base roster has no base shifts
+    with existing weekly roster for same week
+      raises error when weekly roster already exists for week
+  #week_range
+    returns correct week start and end dates
+
+awards/create.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/create.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/destroy.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/destroy.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/edit.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/edit.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/index.html.erb
+  page heading and layout
+    displays 'Award Rates Management' heading
+    displays descriptive subtitle
+    uses correct Tailwind container classes
+    has responsive padding
+  action buttons
+    renders 'New Award Rate' button
+    'New Award Rate' button links to new_award_path
+    'New Award Rate' button has blue styling
+    renders 'Manage User Awards' button
+    'Manage User Awards' button links to users_awards_path
+    'Manage User Awards' button has green styling
+    renders 'Back to Dashboard' button
+    'Back to Dashboard' button links to root_path
+    'Back to Dashboard' button has gray styling
+    buttons are displayed in a flex row
+  award rates table
+    displays 'Current Award Rates' section header
+    displays explanatory text about award rates
+    renders a list element for award rates
+    displays each award rate with award code
+    displays each award rate with classification
+    award rates are listed in div items
+  award rate styling with Tailwind
+    uses shadow styling for card container
+    uses rounded corners on cards
+    has border styling between items
+    has proper spacing and padding
+    section header has gray background
+  empty state handling
+    renders when award_rates is empty
+  responsive design
+    heading uses responsive text sizing
+    container is responsive
+    buttons are responsive
+    list items have responsive padding
+  accessibility
+    heading uses semantic h1 tag
+    list has role attribute for semantics
+    uses semantic strong tags for emphasis
+    links have text labels
+  text styling and hierarchy
+    main heading uses bold font weight
+    subtitle uses smaller text
+    section header uses medium font weight
+    award codes display prominently
+  page sections
+    has flex layout for header
+    groups award rates in consistent sections
+    uses proper vertical spacing between sections
+
+awards/index.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/index.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/new.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/new.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/update.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/update.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+awards/users.html.tailwindcss
+  displays the page title (FAILED - 99)
+  displays the page description (FAILED - 100)
+  displays navigation links (FAILED - 101)
+  displays all users (FAILED - 102)
+  displays user email addresses (FAILED - 103)
+  displays award assignments for users with awards (FAILED - 104)
+  displays 'No award assigned' for users without awards (FAILED - 105)
+  displays 'Manage Awards' link for each user (FAILED - 106)
+  displays award rates with formatted currency (FAILED - 107)
+  includes JavaScript for award management functionality (FAILED - 108)
+  when there are no users
+    displays empty state message (FAILED - 109)
+
+clock_ins/create.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/clock_ins/create.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+clock_ins/new.html.erb
+  page structure
+    renders the page heading
+    renders the subheading with PIN instructions
+    has a min-height full screen container with centered layout
+    uses gray-50 background color
+  clock in form
+    renders a form element
+    form submits to clock_in_path via POST
+    renders a PIN password field
+    PIN field is required
+    PIN field has placeholder text
+    PIN field has maxlength of 10
+    PIN field accepts only numeric input
+    PIN field has numeric inputmode
+    PIN field autocomplete is off
+  form styling with Tailwind CSS
+    form has spacing classes
+    PIN field has border styling
+    PIN field has focus ring styling
+    PIN field has placeholder styling
+    PIN field has text color
+  submit button
+    renders a submit button
+    submit button has primary blue styling
+    submit button has white text
+    submit button is full width
+    submit button has focus ring
+    submit button has disabled state styling
+  accessibility
+    PIN field has an associated label
+    PIN label is hidden from screen (sr-only)
+    uses semantic HTML form elements
+  responsive design
+    container has responsive padding
+    form width is responsive
+    heading has responsive text size
+  layout structure
+    has centered container
+    uses flexbox for vertical spacing
+    rounded corners on input elements
+
+clock_ins/new.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/clock_ins/new.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+rosters/calendar.html.erb
+  Page header and navigation
+    renders the page title
+    displays the week date range
+    includes back to rosters link
+    includes new roster link
+  Empty state
+    shows empty state when no rosters exist
+  Calendar grid structure
+    renders calendar with 8-column grid (time + 7 days)
+    displays day names in header
+    displays time slots from 6 AM to 10 PM
+    renders shift assignments in calendar cells
+  Staff roster sidebar
+    renders without errors when rosters exist
+  Finalize button
+    renders finalize button for draft rosters
+  Conflict warnings and visual feedback
+    highlights shifts in calendar cells
+  Staff assignment modal
+    page can render without JS errors
+  Weekly summary section
+    displays weekly summary section
+    shows total shifts count
+    shows total hours worked
+    displays sales vs wages percentage
+  Visual feedback and UX
+    has proper styling on shift cells
+  Responsive design
+    uses responsive grid layout
+    includes responsive spacing
+
+rosters/index.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/rosters/index.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+rosters/show.html.tailwindcss
+  add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/rosters/show.html.tailwindcss_spec.rb (PENDING: Not yet implemented)
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) AwardsHelper add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/awards_helper_spec.rb
+     # Not yet implemented
+     # ./spec/helpers/awards_helper_spec.rb:14
+
+  2) ClockInsHelper add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/clock_ins_helper_spec.rb
+     # Not yet implemented
+     # ./spec/helpers/clock_ins_helper_spec.rb:14
+
+  3) RostersHelper add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/helpers/rosters_helper_spec.rb
+     # Not yet implemented
+     # ./spec/helpers/rosters_helper_spec.rb:14
+
+  4) WorkSection add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/models/work_section_spec.rb
+     # Not yet implemented
+     # ./spec/models/work_section_spec.rb:4
+
+  5) awards/create.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/create.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/create.html.tailwindcss_spec.rb:4
+
+  6) awards/destroy.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/destroy.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/destroy.html.tailwindcss_spec.rb:4
+
+  7) awards/edit.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/edit.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/edit.html.tailwindcss_spec.rb:4
+
+  8) awards/index.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/index.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/index.html.tailwindcss_spec.rb:4
+
+  9) awards/new.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/new.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/new.html.tailwindcss_spec.rb:4
+
+  10) awards/update.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/awards/update.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/awards/update.html.tailwindcss_spec.rb:4
+
+  11) clock_ins/create.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/clock_ins/create.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/clock_ins/create.html.tailwindcss_spec.rb:4
+
+  12) clock_ins/new.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/clock_ins/new.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/clock_ins/new.html.tailwindcss_spec.rb:4
+
+  13) rosters/index.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/rosters/index.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/rosters/index.html.tailwindcss_spec.rb:4
+
+  14) rosters/show.html.tailwindcss add some examples to (or delete) C:/Users/josha/basic-roster-assist/spec/views/rosters/show.html.tailwindcss_spec.rb
+     # Not yet implemented
+     # ./spec/views/rosters/show.html.tailwindcss_spec.rb:4
+
+Failures:
+
+  1) AwardsController GET /awards returns a success response
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 999, created_at: "2026-01-12 12:18:28.246180000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.246180000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  2) AwardsController GET /awards assigns the requested award_rates
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1000, created_at: "2026-01-12 12:18:28.262164000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.262164000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  3) AwardsController GET /awards assigns users for the dropdown
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1001, created_at: "2026-01-12 12:18:28.270641000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.270641000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  4) AwardsController GET /awards/new returns a success response
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1002, created_at: "2026-01-12 12:18:28.279378000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.279378000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  5) AwardsController GET /awards/new assigns a new award_rate
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1003, created_at: "2026-01-12 12:18:28.290089000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.290089000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  6) AwardsController GET /awards/new assigns users for the dropdown
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1004, created_at: "2026-01-12 12:18:28.326430000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.326430000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  7) AwardsController POST /awards with valid parameters creates a new AwardRate
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1005, created_at: "2026-01-12 12:18:28.340288000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.340288000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  8) AwardsController POST /awards with valid parameters redirects to the awards index
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1006, created_at: "2026-01-12 12:18:28.354118000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.354118000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  9) AwardsController POST /awards with invalid parameters does not create a new AwardRate
+     Failure/Error: sign_in admin_user
+
+     RuntimeError:
+       Could not find a valid mapping for #<User id: 1007, created_at: "2026-01-12 12:18:28.369404000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.369404000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+     # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  10) AwardsController POST /awards with invalid parameters renders the new template
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1008, created_at: "2026-01-12 12:18:28.384014000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.384014000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  11) AwardsController GET /awards/:id/edit returns a success response
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1009, created_at: "2026-01-12 12:18:28.399136000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.399136000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  12) AwardsController GET /awards/:id/edit assigns the requested award_rate
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1010, created_at: "2026-01-12 12:18:28.413878000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.413878000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  13) AwardsController GET /awards/:id/edit assigns users for the dropdown
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1011, created_at: "2026-01-12 12:18:28.428150000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.428150000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  14) AwardsController PATCH /awards/:id with valid parameters updates the award_rate
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1012, created_at: "2026-01-12 12:18:28.443806000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.443806000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  15) AwardsController PATCH /awards/:id with valid parameters redirects to the awards index
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1013, created_at: "2026-01-12 12:18:28.457484000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.457484000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  16) AwardsController PATCH /awards/:id with invalid parameters does not update the award_rate
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1014, created_at: "2026-01-12 12:18:28.468643000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.468643000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  17) AwardsController PATCH /awards/:id with invalid parameters renders the edit template
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1015, created_at: "2026-01-12 12:18:28.480514000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.480514000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  18) AwardsController DELETE /awards/:id destroys the requested award_rate
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1016, created_at: "2026-01-12 12:18:28.494579000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.494579000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  19) AwardsController DELETE /awards/:id redirects to the awards list
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1017, created_at: "2026-01-12 12:18:28.512573000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.512573000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  20) AwardsController GET /awards/users returns a success response
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1018, created_at: "2026-01-12 12:18:28.527484000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.527484000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  21) AwardsController GET /awards/users assigns users with their award rates
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1019, created_at: "2026-01-12 12:18:28.543963000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.543963000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  22) AwardsController GET /awards/users assigns all award rates
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1020, created_at: "2026-01-12 12:18:28.556765000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.556765000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  23) AwardsController GET /awards/assign_award returns a success response
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1021, created_at: "2026-01-12 12:18:28.567531000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.567531000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  24) AwardsController GET /awards/assign_award assigns the user
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1022, created_at: "2026-01-12 12:18:28.579091000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.579091000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  25) AwardsController GET /awards/assign_award assigns available awards (unassigned)
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1023, created_at: "2026-01-12 12:18:28.596512000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.596512000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  26) AwardsController GET /awards/assign_award assigns user awards
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1024, created_at: "2026-01-12 12:18:28.612179000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.612179000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  27) AwardsController GET /awards/assign_award assigns empty user awards for user without awards
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1025, created_at: "2026-01-12 12:18:28.626956000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.626956000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  28) AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type assigns the award to the user
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1026, created_at: "2026-01-12 12:18:28.642066000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.642066000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  29) AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type redirects to the assign_award page
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1027, created_at: "2026-01-12 12:18:28.656737000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.656737000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  30) AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type shows success notice
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1028, created_at: "2026-01-12 12:18:28.667714000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.667714000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  31) AwardsController POST /awards/assign_to_user when user already has an assignment for the same award type removes the existing assignment before assigning the new one
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1029, created_at: "2026-01-12 12:18:28.681801000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.681801000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  32) AwardsController DELETE /awards/remove_from_user removes the award assignment from the user
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1030, created_at: "2026-01-12 12:18:28.696235000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.696235000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  33) AwardsController DELETE /awards/remove_from_user redirects to the assign_award page
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1031, created_at: "2026-01-12 12:18:28.709038000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.709038000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  34) AwardsController DELETE /awards/remove_from_user shows success notice
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1032, created_at: "2026-01-12 12:18:28.720944000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.720944000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  35) AwardsController authorization when user is not admin redirects to root path for index
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1033, created_at: "2026-01-12 12:18:28.732582000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.732582000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  36) AwardsController authorization when user is not admin redirects to root path for new
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1034, created_at: "2026-01-12 12:18:28.744365000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.744365000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  37) AwardsController authorization when user is not admin redirects to root path for create
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1035, created_at: "2026-01-12 12:18:28.755991000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.755991000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  38) AwardsController authorization when user is not admin redirects to root path for edit
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1036, created_at: "2026-01-12 12:18:28.770407000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.770407000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  39) AwardsController authorization when user is not admin redirects to root path for update
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1037, created_at: "2026-01-12 12:18:28.785905000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.785905000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  40) AwardsController authorization when user is not admin redirects to root path for destroy
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1038, created_at: "2026-01-12 12:18:28.804028000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.804028000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  41) AwardsController authorization when user is not admin redirects to root path for users
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1039, created_at: "2026-01-12 12:18:28.822959000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.822959000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  42) AwardsController authorization when user is not admin redirects to root path for assign_award
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1040, created_at: "2026-01-12 12:18:28.835302000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.835302000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  43) AwardsController authorization when user is not admin redirects to root path for assign_to_user
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1041, created_at: "2026-01-12 12:18:28.848380000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.848380000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  44) AwardsController authorization when user is not admin redirects to root path for remove_from_user
+      Failure/Error: sign_in admin_user
+
+      RuntimeError:
+        Could not find a valid mapping for #<User id: 1042, created_at: "2026-01-12 12:18:28.865276000 +0000", email: [FILTERED], encrypted_pin: nil, encrypted_pin_iv: nil, hourly_rate: 0.255e2, name: nil, role: "admin", updated_at: "2026-01-12 12:18:28.865276000 +0000", wage_percentage_goal: 14, yearly_sales: nil>
+      # ./spec/controllers/awards_controller_spec.rb:20:in 'block (2 levels) in <top (required)>'
+
+  45) AwardRate validations 
+      Failure/Error: it { should validate_numericality_of(:rate).has_precision_and_scale(8, 2) }
+
+      NoMethodError:
+        undefined method 'has_precision_and_scale' for an instance of Shoulda::Matchers::ActiveModel::ValidateNumericalityOfMatcher
+      # ./spec/models/award_rate_spec.rb:14:in 'block (3 levels) in <main>'
+
+  46) AwardRate scopes .current returns current month rates
+      Failure/Error: expect(current_rates.count).to eq(2)
+
+        expected: 2
+             got: 1
+
+        (compared using ==)
+      # ./spec/models/award_rate_spec.rb:55:in 'block (4 levels) in <main>'
+
+  47) AwardRate class methods .fetch_and_update_rates_for_user when API call succeeds creates or updates award rate with API data
+      Failure/Error:
+        allow_any_instance_of(FairWorkApiService).to receive(:fetch_award_rate)
+          .with(award_code)
+          .and_return(OpenStruct.new(success?: true, rate: 28.50, error: nil))
+
+      NameError:
+        uninitialized constant OpenStruct
+      # ./spec/models/award_rate_spec.rb:70:in 'block (5 levels) in <main>'
+
+  48) AwardRate class methods .fetch_and_update_rates_for_user when API call succeeds updates existing award rate
+      Failure/Error:
+        allow_any_instance_of(FairWorkApiService).to receive(:fetch_award_rate)
+          .with(award_code)
+          .and_return(OpenStruct.new(success?: true, rate: 28.50, error: nil))
+
+      NameError:
+        uninitialized constant OpenStruct
+      # ./spec/models/award_rate_spec.rb:70:in 'block (5 levels) in <main>'
+
+  49) AwardRate class methods .fetch_and_update_rates_for_user when API call fails returns nil and logs error
+      Failure/Error:
+        allow_any_instance_of(FairWorkApiService).to receive(:fetch_award_rate)
+          .with(award_code)
+          .and_return(OpenStruct.new(success?: false, rate: nil, error: 'API Error'))
+
+      NameError:
+        uninitialized constant OpenStruct
+      # ./spec/models/award_rate_spec.rb:97:in 'block (5 levels) in <main>'
+
+  50) AwardRate class methods .update_all_rates_from_api updates rates for all users with award assignments
+      Failure/Error:
+        allow_any_instance_of(FairWorkApiService).to receive(:fetch_award_rate)
+          .and_return(OpenStruct.new(success?: true, rate: 28.50, error: nil))
+
+      NameError:
+        uninitialized constant OpenStruct
+      # ./spec/models/award_rate_spec.rb:118:in 'block (4 levels) in <main>'
+
+  51) SalesForecast validations is expected to validate that :projected_sales cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:projected_sales) }
+
+        Expected SalesForecast to validate that :projected_sales cannot be
+        empty/falsy, but this could not be proved.
+          After setting :projected_sales to ‹nil›, the matcher expected the
+          SalesForecast to be invalid, placing a validation error on
+          :projected_sales. The Example was invalid, but it had errors involving
+          other attributes:
+
+          * user: ["must exist"]
+          * forecast_type: ["can't be blank"]
+          * start_date: ["can't be blank"]
+          * end_date: ["can't be blank"]
+      # ./spec/models/sales_forecast_spec.rb:8:in 'block (3 levels) in <main>'
+
+  52) SalesForecast validations is expected to validate that :confidence_level cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:confidence_level) }
+
+        Expected SalesForecast to validate that :confidence_level cannot be
+        empty/falsy, but this could not be proved.
+          After setting :confidence_level to ‹nil›, the matcher expected the
+          SalesForecast to be invalid, placing a validation error on
+          :confidence_level. The Example was invalid, but it had errors
+          involving other attributes:
+
+          * user: ["must exist"]
+          * forecast_type: ["can't be blank"]
+          * start_date: ["can't be blank"]
+          * end_date: ["can't be blank"]
+      # ./spec/models/sales_forecast_spec.rb:9:in 'block (3 levels) in <main>'
+
+  53) SalesForecast forecast type validation is invalid for unknown forecast type
+      Failure/Error: let(:invalid_type) { build(:sales_forecast, user: user, forecast_type: :invalid) }
+
+      ArgumentError:
+        'invalid' is not a valid forecast_type
+      # ./spec/models/sales_forecast_spec.rb:99:in 'block (3 levels) in <main>'
+      # ./spec/models/sales_forecast_spec.rb:114:in 'block (3 levels) in <main>'
+
+  54) SalesForecast instance methods #variance returns the difference between actual and projected sales
+      Failure/Error: expect(forecast.variance).to eq(200.00)
+
+      NoMethodError:
+        undefined method 'variance' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:144:in 'block (4 levels) in <main>'
+
+  55) SalesForecast instance methods #variance returns 0 when actual sales is nil
+      Failure/Error: expect(forecast.variance).to eq(0)
+
+      NoMethodError:
+        undefined method 'variance' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:149:in 'block (4 levels) in <main>'
+
+  56) SalesForecast instance methods #variance_percentage returns the variance as a percentage of projected sales
+      Failure/Error: expect(forecast.variance_percentage).to eq(20.0)
+
+      NoMethodError:
+        undefined method 'variance_percentage' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:155:in 'block (4 levels) in <main>'
+
+  57) SalesForecast instance methods #variance_percentage returns 0 when actual sales is nil
+      Failure/Error: expect(forecast.variance_percentage).to eq(0)
+
+      NoMethodError:
+        undefined method 'variance_percentage' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:160:in 'block (4 levels) in <main>'
+
+  58) SalesForecast instance methods #variance_percentage returns 0 when projected sales is 0
+      Failure/Error: expect(forecast.variance_percentage).to eq(0)
+
+      NoMethodError:
+        undefined method 'variance_percentage' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:165:in 'block (4 levels) in <main>'
+
+  59) SalesForecast instance methods #accuracy returns the accuracy percentage
+      Failure/Error: expect(forecast.accuracy).to eq(120.0)
+
+      NoMethodError:
+        undefined method 'accuracy' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:171:in 'block (4 levels) in <main>'
+
+  60) SalesForecast instance methods #accuracy returns 0 when actual sales is nil
+      Failure/Error: expect(forecast.accuracy).to eq(0)
+
+      NoMethodError:
+        undefined method 'accuracy' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:176:in 'block (4 levels) in <main>'
+
+  61) SalesForecast instance methods #accuracy returns 0 when projected sales is 0
+      Failure/Error: expect(forecast.accuracy).to eq(0)
+
+      NoMethodError:
+        undefined method 'accuracy' for an instance of SalesForecast
+      # ./spec/models/sales_forecast_spec.rb:181:in 'block (4 levels) in <main>'
+
+  62) WeeklyRoster validations is expected to validate that :name cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:name) }
+
+        Expected WeeklyRoster to validate that :name cannot be empty/falsy, but
+        this could not be proved.
+          After setting :name to ‹""›, the matcher expected the WeeklyRoster to
+          be invalid, placing a validation error on :name. The Example was
+          invalid, but it had errors involving other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:5:in 'block (3 levels) in <main>'
+
+  63) WeeklyRoster validations is expected to validate that :week_start_date cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:week_start_date) }
+
+        Expected WeeklyRoster to validate that :week_start_date cannot be
+        empty/falsy, but this could not be proved.
+          After setting :week_start_date to ‹nil›, the matcher expected the
+          WeeklyRoster to be invalid, placing a validation error on
+          :week_start_date. The Example was invalid, but it had errors involving
+          other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:6:in 'block (3 levels) in <main>'
+
+  64) WeeklyRoster validations is expected to validate that :week_end_date cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:week_end_date) }
+
+        Expected WeeklyRoster to validate that :week_end_date cannot be
+        empty/falsy, but this could not be proved.
+          After setting :week_end_date to ‹nil›, the matcher expected the
+          WeeklyRoster to be invalid, placing a validation error on
+          :week_end_date. The Example was invalid, but it had errors involving
+          other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:7:in 'block (3 levels) in <main>'
+
+  65) WeeklyRoster validations is expected to validate that :week_type cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:week_type) }
+
+        Expected WeeklyRoster to validate that :week_type cannot be empty/falsy,
+        but this could not be proved.
+          After setting :week_type to ‹nil›, the matcher expected the
+          WeeklyRoster to be invalid, placing a validation error on :week_type.
+          The Example was invalid, but it had errors involving other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:8:in 'block (3 levels) in <main>'
+
+  66) WeeklyRoster validations is expected to validate that :base_roster_id cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:base_roster_id) }
+
+        Expected WeeklyRoster to validate that :base_roster_id cannot be
+        empty/falsy, but this could not be proved.
+          After setting :base_roster_id to ‹nil›, the matcher expected the
+          WeeklyRoster to be invalid, placing a validation error on
+          :base_roster_id. The Example was invalid, but it had errors involving
+          other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:9:in 'block (3 levels) in <main>'
+
+  67) WeeklyRoster validations is expected to validate that :user_id cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:user_id) }
+
+        Expected WeeklyRoster to validate that :user_id cannot be empty/falsy,
+        but this could not be proved.
+          After setting :user_id to ‹nil›, the matcher expected the WeeklyRoster
+          to be invalid, placing a validation error on :user_id. The Example was
+          invalid, but it had errors involving other attributes:
+
+          * base_roster: ["must exist"]
+          * user: ["must exist"]
+      # ./spec/models/weekly_roster_spec.rb:10:in 'block (3 levels) in <main>'
+
+  68) WeeklyRoster date validation is invalid when end date is before start date
+      Failure/Error: expect(invalid_roster).to be_invalid
+        expected `#<WeeklyRoster id: nil, base_roster_id: 280, created_at: nil, finalized_at: nil, finalized_by_id: nil...nil, user_id: 1168, week_end_date: "2026-01-12", week_start_date: "2026-01-19", week_type: "weekly">.invalid?` to be truthy, got false
+      # ./spec/models/weekly_roster_spec.rb:31:in 'block (3 levels) in <main>'
+
+  69) WeeklyShift validations is expected to validate that :day_of_week cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:day_of_week) }
+
+        Expected WeeklyShift to validate that :day_of_week cannot be
+        empty/falsy, but this could not be proved.
+          After setting :day_of_week to ‹nil›, the matcher expected the
+          WeeklyShift to be invalid, placing a validation error on :day_of_week.
+          The Example was invalid, but it had errors involving other attributes:
+
+          * weekly_roster: ["must exist"]
+          * start_time: ["can't be blank"]
+          * end_time: ["can't be blank"]
+      # ./spec/models/weekly_shift_spec.rb:5:in 'block (3 levels) in <main>'
+
+  70) WeeklyShift validations is expected to validate that :shift_type cannot be empty/falsy
+      Failure/Error: it { should validate_presence_of(:shift_type) }
+
+        Expected WeeklyShift to validate that :shift_type cannot be empty/falsy,
+        but this could not be proved.
+          After setting :shift_type to ‹nil›, the matcher expected the
+          WeeklyShift to be invalid, placing a validation error on :shift_type.
+          The Example was invalid, but it had errors involving other attributes:
+
+          * weekly_roster: ["must exist"]
+          * start_time: ["can't be blank"]
+          * end_time: ["can't be blank"]
+      # ./spec/models/weekly_shift_spec.rb:6:in 'block (3 levels) in <main>'
+
+  71) WeeklyShift time validation is invalid when end time is before start time
+      Failure/Error: expect(invalid_shift).to be_invalid
+        expected `#<WeeklyShift id: nil, assigned_staff_id: nil, break_end_time: nil, break_start_time: nil, created_at...morning", start_time: "2000-01-01 16:00:00.000000000 +0000", updated_at: nil, weekly_roster_id: 162>.invalid?` to be truthy, got false
+      # ./spec/models/weekly_shift_spec.rb:27:in 'block (3 levels) in <main>'
+
+  72) WeeklyShift overlapping validation is invalid when shift overlaps with existing shift
+      Failure/Error: expect(overlapping_shift).to be_invalid
+        expected `#<WeeklyShift id: nil, assigned_staff_id: nil, break_end_time: nil, break_start_time: nil, created_at...morning", start_time: "2000-01-01 10:00:00.000000000 +0000", updated_at: nil, weekly_roster_id: 163>.invalid?` to be truthy, got false
+      # ./spec/models/weekly_shift_spec.rb:39:in 'block (3 levels) in <main>'
+
+  73) Awards GET /index returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:7:in 'block (3 levels) in <main>'
+
+  74) Awards GET /new returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:14:in 'block (3 levels) in <main>'
+
+  75) Awards GET /create returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:21:in 'block (3 levels) in <main>'
+
+  76) Awards GET /edit returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:28:in 'block (3 levels) in <main>'
+
+  77) Awards GET /update returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:35:in 'block (3 levels) in <main>'
+
+  78) Awards GET /destroy returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/awards_spec.rb:42:in 'block (3 levels) in <main>'
+
+  79) ClockIns GET /new returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/clock_ins_spec.rb:7:in 'block (3 levels) in <main>'
+
+  80) ClockIns GET /create returns http success
+      Failure/Error: expect(response).to have_http_status(:success)
+        expected the response to have a success status code (2xx) but it was 404
+      # ./spec/requests/clock_ins_spec.rb:14:in 'block (3 levels) in <main>'
+
+  81) Rosters show page with budget display budget display integration RosterBudgetCalculator integration handles zero wages
+      Failure/Error: expect(display[:percentage]).to be_nil
+
+        expected: nil
+             got: 0.0
+      # ./spec/requests/rosters_budget_spec.rb:107:in 'block (4 levels) in <main>'
+
+  82) ClockInService business rules maximum shift duration prevents clocking out after maximum hours
+      Failure/Error:
+        expect {
+          service.clock_out
+        }.not_to raise_error
+
+        expected no Exception, got #<ClockInService::ShiftTooLongError: Shift exceeds maximum duration of 10 hours> with backtrace:
+          # ./app/services/clock_in_service.rb:70:in 'ClockInService#validate_shift_duration!'
+          # ./app/services/clock_in_service.rb:31:in 'ClockInService#clock_out'
+          # ./spec/services/clock_in_service_spec.rb:175:in 'block (5 levels) in <main>'
+          # ./spec/services/clock_in_service_spec.rb:174:in 'block (4 levels) in <main>'
+      # ./spec/services/clock_in_service_spec.rb:174:in 'block (4 levels) in <main>'
+
+  83) FairWorkApiService#fetch_award_rate when API call fails returns a failure result
+      Failure/Error: expect(result.error).to include('Invalid request to Fair Work API')
+        expected "API request failed" to include "Invalid request to Fair Work API"
+      # ./spec/services/fair_work_api_service_spec.rb:68:in 'block (4 levels) in <main>'
+
+  84) FairWorkApiService#fetch_award_rate when award is not found returns a failure result with award not found message
+      Failure/Error: expect(result.error).to include('Award not found')
+        expected "API request failed" to include "Award not found"
+      # ./spec/services/fair_work_api_service_spec.rb:91:in 'block (4 levels) in <main>'
+
+  85) RosterBudgetCalculator#calculate_baseline_sales calculates weekly sales from yearly average and goal percentage
+      Failure/Error: expect(calculator.calculate_baseline_sales).to eq(expected)
+
+      NoMethodError:
+        undefined method 'calculate_baseline_sales' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:15:in 'block (3 levels) in <main>'
+
+  86) RosterBudgetCalculator#calculate_baseline_sales returns 0 if user has no yearly_sales
+      Failure/Error: expect(calculator.calculate_baseline_sales).to eq(0)
+
+      NoMethodError:
+        undefined method 'calculate_baseline_sales' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:21:in 'block (3 levels) in <main>'
+
+  87) RosterBudgetCalculator#calculate_baseline_wages calculates weekly wages from baseline sales and goal percentage
+      Failure/Error: expect(calculator.calculate_baseline_wages).to eq(expected)
+
+      NoMethodError:
+        undefined method 'calculate_baseline_wages' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:31:in 'block (3 levels) in <main>'
+
+  88) RosterBudgetCalculator#calculate_baseline_wages returns 0 if user has no wage_percentage_goal
+      Failure/Error: expect(calculator.calculate_baseline_wages).to eq(0)
+
+      NoMethodError:
+        undefined method 'calculate_baseline_wages' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:37:in 'block (3 levels) in <main>'
+
+  89) RosterBudgetCalculator#calculate_actual_wages sums wages from base shifts using user hourly rate
+      Failure/Error: expect(calculator.calculate_actual_wages).to eq(250.0)
+
+      NoMethodError:
+        undefined method 'calculate_actual_wages' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:48:in 'block (3 levels) in <main>'
+
+  90) RosterBudgetCalculator#calculate_actual_wages returns 0 if no shifts assigned
+      Failure/Error: expect(calculator.calculate_actual_wages).to eq(0)
+
+      NoMethodError:
+        undefined method 'calculate_actual_wages' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:53:in 'block (3 levels) in <main>'
+
+  91) RosterBudgetCalculator#calculate_wages_percentage with sales and wages calculates percentage as (wages / sales) * 100
+      Failure/Error: expect(calculator.calculate_wages_percentage).to eq(expected)
+
+      NoMethodError:
+        undefined method 'calculate_wages_percentage' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:66:in 'block (4 levels) in <main>'
+
+  92) RosterBudgetCalculator#calculate_wages_percentage with no sales returns nil
+      Failure/Error: expect(calculator.calculate_wages_percentage).to be_nil
+
+      NoMethodError:
+        undefined method 'calculate_wages_percentage' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:74:in 'block (4 levels) in <main>'
+
+  93) RosterBudgetCalculator#calculate_wages_percentage with zero wages returns nil
+      Failure/Error: expect(calculator.calculate_wages_percentage).to be_nil
+
+      NoMethodError:
+        undefined method 'calculate_wages_percentage' for an instance of RosterBudgetCalculator
+      # ./spec/services/roster_budget_calculator_spec.rb:82:in 'block (4 levels) in <main>'
+
+  94) RosterPublishedNotification#call when roster has associated user sends email notification successfully
+      Failure/Error: OpenStruct.new(success?: true, roster: roster) # Still return success since roster publishing succeeded
+
+      NameError:
+        uninitialized constant RosterPublishedNotification::OpenStruct
+      # ./app/services/roster_published_notification.rb:25:in 'RosterPublishedNotification#call'
+      # ./spec/services/roster_published_notification_spec.rb:31:in 'block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant RosterPublishedNotification::OpenStruct
+      #   ./app/services/roster_published_notification.rb:21:in 'RosterPublishedNotification#call'
+
+  95) RosterPublishedNotification#call when roster has associated user handles email delivery failures gracefully
+      Failure/Error: OpenStruct.new(success?: true, roster: roster) # Still return success since roster publishing succeeded
+
+      NameError:
+        uninitialized constant RosterPublishedNotification::OpenStruct
+      # ./app/services/roster_published_notification.rb:25:in 'RosterPublishedNotification#call'
+      # ./spec/services/roster_published_notification_spec.rb:39:in 'block (4 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # StandardError:
+      #   SMTP error
+      #   ./app/services/roster_published_notification.rb:35:in 'RosterPublishedNotification#send_notification_email'
+
+  96) RosterPublishedNotification#call when roster has no associated user raises RosterPublishedNotification::NoUserError
+      Failure/Error:
+        expect {
+          service_without_user.call
+        }.to raise_error(RosterPublishedNotification::NoUserError, 'Roster has no associated user')
+
+        expected RosterPublishedNotification::NoUserError with "Roster has no associated user", got #<ActiveRecord::RecordInvalid: Validation failed: User must exist> with backtrace:
+          # ./spec/services/roster_published_notification_spec.rb:46:in 'block (4 levels) in <main>'
+          # ./spec/services/roster_published_notification_spec.rb:47:in 'block (4 levels) in <main>'
+          # ./spec/services/roster_published_notification_spec.rb:51:in 'block (5 levels) in <main>'
+          # ./spec/services/roster_published_notification_spec.rb:50:in 'block (4 levels) in <main>'
+      # ./spec/services/roster_published_notification_spec.rb:50:in 'block (4 levels) in <main>'
+
+  97) RosterPublishedNotification#call when roster user has no email still attempts to send email (Rails handles nil email gracefully)
+      Failure/Error: let(:user_without_email) { create(:user, email: nil) }
+
+      ActiveRecord::RecordInvalid:
+        Validation failed: Email can't be blank
+      # ./spec/services/roster_published_notification_spec.rb:65:in 'block (4 levels) in <main>'
+      # ./spec/services/roster_published_notification_spec.rb:66:in 'block (4 levels) in <main>'
+      # ./spec/services/roster_published_notification_spec.rb:70:in 'block (4 levels) in <main>'
+
+  98) RosterPublishedNotification service result returns a successful result with roster
+      Failure/Error: OpenStruct.new(success?: true, roster: roster) # Still return success since roster publishing succeeded
+
+      NameError:
+        uninitialized constant RosterPublishedNotification::OpenStruct
+      # ./app/services/roster_published_notification.rb:25:in 'RosterPublishedNotification#call'
+      # ./spec/services/roster_published_notification_spec.rb:89:in 'block (3 levels) in <main>'
+      # ------------------
+      # --- Caused by: ---
+      # NameError:
+      #   uninitialized constant RosterPublishedNotification::OpenStruct
+      #   ./app/services/roster_published_notification.rb:21:in 'RosterPublishedNotification#call'
+
+  99) awards/users.html.tailwindcss displays the page title
+      Failure/Error: sign_in admin_user
+
+      NoMethodError:
+        undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909117b30>
+      # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  100) awards/users.html.tailwindcss displays the page description
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e3bf50>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  101) awards/users.html.tailwindcss displays navigation links
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e39890>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  102) awards/users.html.tailwindcss displays all users
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e37950>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  103) awards/users.html.tailwindcss displays user email addresses
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e35b50>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  104) awards/users.html.tailwindcss displays award assignments for users with awards
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e33d50>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  105) awards/users.html.tailwindcss displays 'No award assigned' for users without awards
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e31f50>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  106) awards/users.html.tailwindcss displays 'Manage Awards' link for each user
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e1fa08>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  107) awards/users.html.tailwindcss displays award rates with formatted currency
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e1dac8>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  108) awards/users.html.tailwindcss includes JavaScript for award management functionality
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss:0x0000018909e1bcc8>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+  109) awards/users.html.tailwindcss when there are no users displays empty state message
+       Failure/Error: sign_in admin_user
+
+       NoMethodError:
+         undefined method 'sign_in' for #<RSpec::ExampleGroups::AwardsUsersHtmlTailwindcss::WhenThereAreNoUsers:0x00000189093417d0>
+       # ./spec/views/awards/users.html.tailwindcss_spec.rb:13:in 'block (2 levels) in <main>'
+
+Finished in 59.59 seconds (files took 3 minutes 36 seconds to load)
+435 examples, 109 failures, 14 pending
+
+Failed examples:
+
+rspec ./spec/controllers/awards_controller_spec.rb:24 # AwardsController GET /awards returns a success response
+rspec ./spec/controllers/awards_controller_spec.rb:29 # AwardsController GET /awards assigns the requested award_rates
+rspec ./spec/controllers/awards_controller_spec.rb:34 # AwardsController GET /awards assigns users for the dropdown
+rspec ./spec/controllers/awards_controller_spec.rb:41 # AwardsController GET /awards/new returns a success response
+rspec ./spec/controllers/awards_controller_spec.rb:46 # AwardsController GET /awards/new assigns a new award_rate
+rspec ./spec/controllers/awards_controller_spec.rb:51 # AwardsController GET /awards/new assigns users for the dropdown
+rspec ./spec/controllers/awards_controller_spec.rb:59 # AwardsController POST /awards with valid parameters creates a new AwardRate
+rspec ./spec/controllers/awards_controller_spec.rb:71 # AwardsController POST /awards with valid parameters redirects to the awards index
+rspec ./spec/controllers/awards_controller_spec.rb:84 # AwardsController POST /awards with invalid parameters does not create a new AwardRate
+rspec ./spec/controllers/awards_controller_spec.rb:95 # AwardsController POST /awards with invalid parameters renders the new template
+rspec ./spec/controllers/awards_controller_spec.rb:108 # AwardsController GET /awards/:id/edit returns a success response
+rspec ./spec/controllers/awards_controller_spec.rb:113 # AwardsController GET /awards/:id/edit assigns the requested award_rate
+rspec ./spec/controllers/awards_controller_spec.rb:118 # AwardsController GET /awards/:id/edit assigns users for the dropdown
+rspec ./spec/controllers/awards_controller_spec.rb:126 # AwardsController PATCH /awards/:id with valid parameters updates the award_rate
+rspec ./spec/controllers/awards_controller_spec.rb:132 # AwardsController PATCH /awards/:id with valid parameters redirects to the awards index
+rspec ./spec/controllers/awards_controller_spec.rb:139 # AwardsController PATCH /awards/:id with invalid parameters does not update the award_rate
+rspec ./spec/controllers/awards_controller_spec.rb:146 # AwardsController PATCH /awards/:id with invalid parameters renders the edit template
+rspec ./spec/controllers/awards_controller_spec.rb:154 # AwardsController DELETE /awards/:id destroys the requested award_rate
+rspec ./spec/controllers/awards_controller_spec.rb:160 # AwardsController DELETE /awards/:id redirects to the awards list
+rspec ./spec/controllers/awards_controller_spec.rb:167 # AwardsController GET /awards/users returns a success response
+rspec ./spec/controllers/awards_controller_spec.rb:172 # AwardsController GET /awards/users assigns users with their award rates
+rspec ./spec/controllers/awards_controller_spec.rb:177 # AwardsController GET /awards/users assigns all award rates
+rspec ./spec/controllers/awards_controller_spec.rb:184 # AwardsController GET /awards/assign_award returns a success response
+rspec ./spec/controllers/awards_controller_spec.rb:189 # AwardsController GET /awards/assign_award assigns the user
+rspec ./spec/controllers/awards_controller_spec.rb:194 # AwardsController GET /awards/assign_award assigns available awards (unassigned)
+rspec ./spec/controllers/awards_controller_spec.rb:200 # AwardsController GET /awards/assign_award assigns user awards
+rspec ./spec/controllers/awards_controller_spec.rb:205 # AwardsController GET /awards/assign_award assigns empty user awards for user without awards
+rspec ./spec/controllers/awards_controller_spec.rb:215 # AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type assigns the award to the user
+rspec ./spec/controllers/awards_controller_spec.rb:221 # AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type redirects to the assign_award page
+rspec ./spec/controllers/awards_controller_spec.rb:226 # AwardsController POST /awards/assign_to_user when user has no existing assignment for the same award type shows success notice
+rspec ./spec/controllers/awards_controller_spec.rb:236 # AwardsController POST /awards/assign_to_user when user already has an assignment for the same award type removes the existing assignment before assigning the new one
+rspec ./spec/controllers/awards_controller_spec.rb:247 # AwardsController DELETE /awards/remove_from_user removes the award assignment from the user
+rspec ./spec/controllers/awards_controller_spec.rb:253 # AwardsController DELETE /awards/remove_from_user redirects to the assign_award page
+rspec ./spec/controllers/awards_controller_spec.rb:258 # AwardsController DELETE /awards/remove_from_user shows success notice
+rspec ./spec/controllers/awards_controller_spec.rb:270 # AwardsController authorization when user is not admin redirects to root path for index
+rspec ./spec/controllers/awards_controller_spec.rb:275 # AwardsController authorization when user is not admin redirects to root path for new
+rspec ./spec/controllers/awards_controller_spec.rb:280 # AwardsController authorization when user is not admin redirects to root path for create
+rspec ./spec/controllers/awards_controller_spec.rb:285 # AwardsController authorization when user is not admin redirects to root path for edit
+rspec ./spec/controllers/awards_controller_spec.rb:290 # AwardsController authorization when user is not admin redirects to root path for update
+rspec ./spec/controllers/awards_controller_spec.rb:295 # AwardsController authorization when user is not admin redirects to root path for destroy
+rspec ./spec/controllers/awards_controller_spec.rb:300 # AwardsController authorization when user is not admin redirects to root path for users
+rspec ./spec/controllers/awards_controller_spec.rb:305 # AwardsController authorization when user is not admin redirects to root path for assign_award
+rspec ./spec/controllers/awards_controller_spec.rb:310 # AwardsController authorization when user is not admin redirects to root path for assign_to_user
+rspec ./spec/controllers/awards_controller_spec.rb:315 # AwardsController authorization when user is not admin redirects to root path for remove_from_user
+rspec ./spec/models/award_rate_spec.rb:14 # AwardRate validations 
+rspec ./spec/models/award_rate_spec.rb:53 # AwardRate scopes .current returns current month rates
+rspec ./spec/models/award_rate_spec.rb:73 # AwardRate class methods .fetch_and_update_rates_for_user when API call succeeds creates or updates award rate with API data
+rspec ./spec/models/award_rate_spec.rb:83 # AwardRate class methods .fetch_and_update_rates_for_user when API call succeeds updates existing award rate
+rspec ./spec/models/award_rate_spec.rb:100 # AwardRate class methods .fetch_and_update_rates_for_user when API call fails returns nil and logs error
+rspec ./spec/models/award_rate_spec.rb:121 # AwardRate class methods .update_all_rates_from_api updates rates for all users with award assignments
+rspec ./spec/models/sales_forecast_spec.rb:8 # SalesForecast validations is expected to validate that :projected_sales cannot be empty/falsy
+rspec ./spec/models/sales_forecast_spec.rb:9 # SalesForecast validations is expected to validate that :confidence_level cannot be empty/falsy
+rspec ./spec/models/sales_forecast_spec.rb:113 # SalesForecast forecast type validation is invalid for unknown forecast type
+rspec ./spec/models/sales_forecast_spec.rb:143 # SalesForecast instance methods #variance returns the difference between actual and projected sales
+rspec ./spec/models/sales_forecast_spec.rb:147 # SalesForecast instance methods #variance returns 0 when actual sales is nil
+rspec ./spec/models/sales_forecast_spec.rb:154 # SalesForecast instance methods #variance_percentage returns the variance as a percentage of projected sales
+rspec ./spec/models/sales_forecast_spec.rb:158 # SalesForecast instance methods #variance_percentage returns 0 when actual sales is nil
+rspec ./spec/models/sales_forecast_spec.rb:163 # SalesForecast instance methods #variance_percentage returns 0 when projected sales is 0
+rspec ./spec/models/sales_forecast_spec.rb:170 # SalesForecast instance methods #accuracy returns the accuracy percentage
+rspec ./spec/models/sales_forecast_spec.rb:174 # SalesForecast instance methods #accuracy returns 0 when actual sales is nil
+rspec ./spec/models/sales_forecast_spec.rb:179 # SalesForecast instance methods #accuracy returns 0 when projected sales is 0
+rspec ./spec/models/weekly_roster_spec.rb:5 # WeeklyRoster validations is expected to validate that :name cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:6 # WeeklyRoster validations is expected to validate that :week_start_date cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:7 # WeeklyRoster validations is expected to validate that :week_end_date cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:8 # WeeklyRoster validations is expected to validate that :week_type cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:9 # WeeklyRoster validations is expected to validate that :base_roster_id cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:10 # WeeklyRoster validations is expected to validate that :user_id cannot be empty/falsy
+rspec ./spec/models/weekly_roster_spec.rb:30 # WeeklyRoster date validation is invalid when end date is before start date
+rspec ./spec/models/weekly_shift_spec.rb:5 # WeeklyShift validations is expected to validate that :day_of_week cannot be empty/falsy
+rspec ./spec/models/weekly_shift_spec.rb:6 # WeeklyShift validations is expected to validate that :shift_type cannot be empty/falsy
+rspec ./spec/models/weekly_shift_spec.rb:26 # WeeklyShift time validation is invalid when end time is before start time
+rspec ./spec/models/weekly_shift_spec.rb:38 # WeeklyShift overlapping validation is invalid when shift overlaps with existing shift
+rspec ./spec/requests/awards_spec.rb:5 # Awards GET /index returns http success
+rspec ./spec/requests/awards_spec.rb:12 # Awards GET /new returns http success
+rspec ./spec/requests/awards_spec.rb:19 # Awards GET /create returns http success
+rspec ./spec/requests/awards_spec.rb:26 # Awards GET /edit returns http success
+rspec ./spec/requests/awards_spec.rb:33 # Awards GET /update returns http success
+rspec ./spec/requests/awards_spec.rb:40 # Awards GET /destroy returns http success
+rspec ./spec/requests/clock_ins_spec.rb:5 # ClockIns GET /new returns http success
+rspec ./spec/requests/clock_ins_spec.rb:12 # ClockIns GET /create returns http success
+rspec ./spec/requests/rosters_budget_spec.rb:102 # Rosters show page with budget display budget display integration RosterBudgetCalculator integration handles zero wages
+rspec ./spec/services/clock_in_service_spec.rb:169 # ClockInService business rules maximum shift duration prevents clocking out after maximum hours
+rspec ./spec/services/fair_work_api_service_spec.rb:64 # FairWorkApiService#fetch_award_rate when API call fails returns a failure result
+rspec ./spec/services/fair_work_api_service_spec.rb:87 # FairWorkApiService#fetch_award_rate when award is not found returns a failure result with award not found message
+rspec ./spec/services/roster_budget_calculator_spec.rb:10 # RosterBudgetCalculator#calculate_baseline_sales calculates weekly sales from yearly average and goal percentage
+rspec ./spec/services/roster_budget_calculator_spec.rb:18 # RosterBudgetCalculator#calculate_baseline_sales returns 0 if user has no yearly_sales
+rspec ./spec/services/roster_budget_calculator_spec.rb:26 # RosterBudgetCalculator#calculate_baseline_wages calculates weekly wages from baseline sales and goal percentage
+rspec ./spec/services/roster_budget_calculator_spec.rb:34 # RosterBudgetCalculator#calculate_baseline_wages returns 0 if user has no wage_percentage_goal
+rspec ./spec/services/roster_budget_calculator_spec.rb:42 # RosterBudgetCalculator#calculate_actual_wages sums wages from base shifts using user hourly rate
+rspec ./spec/services/roster_budget_calculator_spec.rb:51 # RosterBudgetCalculator#calculate_actual_wages returns 0 if no shifts assigned
+rspec ./spec/services/roster_budget_calculator_spec.rb:59 # RosterBudgetCalculator#calculate_wages_percentage with sales and wages calculates percentage as (wages / sales) * 100
+rspec ./spec/services/roster_budget_calculator_spec.rb:71 # RosterBudgetCalculator#calculate_wages_percentage with no sales returns nil
+rspec ./spec/services/roster_budget_calculator_spec.rb:79 # RosterBudgetCalculator#calculate_wages_percentage with zero wages returns nil
+rspec ./spec/services/roster_published_notification_spec.rb:27 # RosterPublishedNotification#call when roster has associated user sends email notification successfully
+rspec ./spec/services/roster_published_notification_spec.rb:36 # RosterPublishedNotification#call when roster has associated user handles email delivery failures gracefully
+rspec ./spec/services/roster_published_notification_spec.rb:49 # RosterPublishedNotification#call when roster has no associated user raises RosterPublishedNotification::NoUserError
+rspec ./spec/services/roster_published_notification_spec.rb:69 # RosterPublishedNotification#call when roster user has no email still attempts to send email (Rails handles nil email gracefully)
+rspec ./spec/services/roster_published_notification_spec.rb:86 # RosterPublishedNotification service result returns a successful result with roster
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:16 # awards/users.html.tailwindcss displays the page title
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:21 # awards/users.html.tailwindcss displays the page description
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:26 # awards/users.html.tailwindcss displays navigation links
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:32 # awards/users.html.tailwindcss displays all users
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:38 # awards/users.html.tailwindcss displays user email addresses
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:44 # awards/users.html.tailwindcss displays award assignments for users with awards
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:50 # awards/users.html.tailwindcss displays 'No award assigned' for users without awards
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:55 # awards/users.html.tailwindcss displays 'Manage Awards' link for each user
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:60 # awards/users.html.tailwindcss displays award rates with formatted currency
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:79 # awards/users.html.tailwindcss includes JavaScript for award management functionality
+rspec ./spec/views/awards/users.html.tailwindcss_spec.rb:72 # awards/users.html.tailwindcss when there are no users displays empty state message
+

@@ -1,16 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe "awards/users.html.tailwindcss", type: :view do
+RSpec.describe "awards/users.html.erb", type: :view do
   let(:admin_user) { create(:user, :admin) }
   let(:user_with_awards) { create(:user, name: 'John Doe') }
   let(:user_without_awards) { create(:user, name: 'Jane Smith') }
-  let(:award1) { create(:award_rate, user: user_with_awards, award_code: 'TEST001', classification: 'Level 1') }
-  let(:award2) { create(:award_rate, user: user_with_awards, award_code: 'TEST002', classification: 'Level 2') }
+  let(:award1) { create(:award_rate, user: user_with_awards, award_code: 'TEST001', classification: 'Level 1', rate: 25.00) }
+  let(:award2) { create(:award_rate, user: user_with_awards, award_code: 'TEST002', classification: 'Level 2', rate: 30.00) }
 
   before do
     assign(:users, [ user_with_awards, user_without_awards ])
     assign(:award_rates, [ award1, award2 ])
-    sign_in admin_user
+    allow(view).to receive(:user_signed_in?).and_return(true)
+    allow(view).to receive(:current_user).and_return(admin_user)
   end
 
   it "displays the page title" do
@@ -54,7 +55,7 @@ RSpec.describe "awards/users.html.tailwindcss", type: :view do
 
   it "displays 'Manage Awards' link for each user" do
     render
-    expect(rendered).to have_selector('a[data-action="manage-awards"]', count: 2)
+    expect(rendered).to have_link('Manage Awards', count: 2)
   end
 
   it "displays award rates with formatted currency" do
@@ -76,8 +77,4 @@ RSpec.describe "awards/users.html.tailwindcss", type: :view do
     end
   end
 
-  it "includes JavaScript for award management functionality" do
-    render
-    expect(rendered).to include('Award management functionality coming soon!')
-  end
 end

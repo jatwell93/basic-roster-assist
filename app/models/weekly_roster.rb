@@ -7,7 +7,13 @@ class WeeklyRoster < ApplicationRecord
   enum :week_type, { weekly: 0, fortnightly: 1 }
   enum :status, { draft: 0, finalized: 1 }
 
+  validates :name, presence: true
+  validates :week_start_date, :week_end_date, presence: true
+  validates :week_type, presence: true
+  validates :base_roster_id, :user_id, presence: true
   validates :status, presence: true
+
+  validate :end_date_after_start_date
 
   scope :drafted, -> { where(status: :draft) }
   scope :finalized_rosters, -> { where(status: :finalized) }
@@ -39,5 +45,15 @@ class WeeklyRoster < ApplicationRecord
   # Check if roster can still be edited
   def editable?
     !finalized?
+  end
+
+  private
+
+  def end_date_after_start_date
+    return unless week_start_date && week_end_date
+
+    if week_end_date < week_start_date
+      errors.add(:week_end_date, "must be after start date")
+    end
   end
 end

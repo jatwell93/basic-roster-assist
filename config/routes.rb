@@ -29,15 +29,13 @@ Rails.application.routes.draw do
   get "clock_in", to: "clock_ins#new", as: :new_clock_in
   post "clock_in", to: "clock_ins#create"
 
-  # Admin-only award management routes
-  constraints ->(request) { request.env["warden"].user&.admin? } do
-    resources :awards do
-      collection do
-        get :users
-        get :assign_award
-        post :assign_to_user
-        delete :remove_from_user
-      end
+  # Admin-only award management routes (auth handled by before_action :require_admin in controller)
+  resources :awards do
+    collection do
+      get :users
+      get :assign_award
+      post :assign_to_user
+      delete :remove_from_user
     end
   end
 

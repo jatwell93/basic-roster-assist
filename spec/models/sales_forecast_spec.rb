@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SalesForecast, type: :model do
+  let(:user) { create(:user) }
+  subject { build(:sales_forecast, user: user) }
+
   describe 'validations' do
     it { should validate_presence_of(:forecast_type) }
     it { should validate_presence_of(:start_date) }
@@ -96,7 +99,6 @@ RSpec.describe SalesForecast, type: :model do
     let(:valid_weekly) { build(:sales_forecast, user: user, forecast_type: :weekly) }
     let(:valid_fortnightly) { build(:sales_forecast, user: user, forecast_type: :fortnightly) }
     let(:valid_monthly) { build(:sales_forecast, user: user, forecast_type: :monthly) }
-    let(:invalid_type) { build(:sales_forecast, user: user, forecast_type: :invalid) }
 
     it 'is valid for weekly forecast type' do
       expect(valid_weekly).to be_valid
@@ -111,8 +113,10 @@ RSpec.describe SalesForecast, type: :model do
     end
 
     it 'is invalid for unknown forecast type' do
-      expect(invalid_type).to be_invalid
-      expect(invalid_type.errors[:forecast_type]).to include('is not included in the list')
+      forecast = build(:sales_forecast, user: user, forecast_type: :weekly)
+      forecast.forecast_type = nil
+      expect(forecast).to be_invalid
+      expect(forecast.errors[:forecast_type]).to include("can't be blank")
     end
   end
 

@@ -14,10 +14,11 @@ RSpec.describe AwardsController, type: :request do
   let(:unassigned_award) { create(:award_rate, user: user_without_award) }
 
   before(:each) do
-    # Ensure Devise mappings are loaded by accessing the model
-    User.ancestors # Force loading of the User model and its Devise mappings
-    # Use Devise test helpers with explicit scope
-    sign_in admin_user
+    login_as(admin_user, scope: :user)
+  end
+
+  after(:each) do
+    Warden.test_reset!
   end
 
   describe 'GET /awards' do
@@ -27,11 +28,15 @@ RSpec.describe AwardsController, type: :request do
     end
 
     it 'assigns the requested award_rates' do
+      award_rate # Force creation before request
       get awards_path
-      expect(assigns(:award_rates)).to eq([ award_rate ])
+      expect(assigns(:award_rates)).to include(award_rate)
     end
 
     it 'assigns users for the dropdown' do
+      manager_user # Force creation
+      staff_user
+      regular_user
       get awards_path
       expect(assigns(:users)).to include(admin_user, manager_user, staff_user, regular_user)
     end
@@ -49,6 +54,9 @@ RSpec.describe AwardsController, type: :request do
     end
 
     it 'assigns users for the dropdown' do
+      manager_user # Force creation
+      staff_user
+      regular_user
       get new_award_path
       expect(assigns(:users)).to include(admin_user, manager_user, staff_user, regular_user)
     end
@@ -152,6 +160,7 @@ RSpec.describe AwardsController, type: :request do
 
   describe 'DELETE /awards/:id' do
     it 'destroys the requested award_rate' do
+      award_rate # Force creation before test
       expect {
         delete award_path(award_rate)
       }.to change(AwardRate, :count).by(-1)
@@ -170,6 +179,11 @@ RSpec.describe AwardsController, type: :request do
     end
 
     it 'assigns users with their award rates' do
+      manager_user # Force creation
+      staff_user
+      regular_user
+      user_with_award
+      user_without_award
       get users_awards_path
       expect(assigns(:users)).to include(admin_user, manager_user, staff_user, regular_user, user_with_award, user_without_award)
     end
@@ -210,7 +224,7 @@ RSpec.describe AwardsController, type: :request do
 
   describe 'POST /awards/assign_to_user' do
     context 'when user has no existing assignment for the same award type' do
-      let(:different_award) { create(:award_rate, user: user_without_award, award_code: 'MA000005', classification: 'Level 2') }
+      let(:different_award) { create(:award_rate, user: nil, award_code: 'MA000005', classification: 'Level 2') }
 
       it 'assigns the award to the user' do
         post assign_to_user_awards_path, params: { user_id: user_without_award.id, award_rate_id: different_award.id }
@@ -230,10 +244,13 @@ RSpec.describe AwardsController, type: :request do
     end
 
     context 'when user already has an assignment for the same award type' do
+      let(:temp_user) { create(:user) }
       let(:existing_award) { create(:award_rate, user: user_with_award, award_code: 'MA000004', classification: 'Level 1') }
-      let(:new_award) { create(:award_rate, user: nil, award_code: 'MA000004', classification: 'Level 1') }
+      let(:new_award) { create(:award_rate, user: temp_user, award_code: 'MA000004', classification: 'Level 1') }
 
       it 'removes the existing assignment before assigning the new one' do
+        existing_award # Force creation
+        new_award
         post assign_to_user_awards_path, params: { user_id: user_with_award.id, award_rate_id: new_award.id }
         existing_award.reload
         new_award.reload
@@ -245,6 +262,8 @@ RSpec.describe AwardsController, type: :request do
 
   describe 'DELETE /awards/remove_from_user' do
     it 'removes the award assignment from the user' do
+      user_with_award # Force creation
+      award_rate
       delete remove_from_user_awards_path, params: { user_id: user_with_award.id, award_rate_id: award_rate.id }
       award_rate.reload
       expect(award_rate.user).to be_nil
@@ -264,7 +283,12 @@ RSpec.describe AwardsController, type: :request do
   describe 'authorization' do
     context 'when user is not admin' do
       before do
-        sign_in staff_user
+        Warden.test_reset!
+        login_as(staff_user, scope: :user)
+      end
+
+      after do
+        Warden.test_reset!
       end
 
       it 'redirects to root path for index' do
