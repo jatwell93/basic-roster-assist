@@ -78,14 +78,14 @@
       <% end %>
       
       <!-- Summary Footer -->
-      <%= form_with model: @roster, url: roster_path(@roster), method: :patch, data: { turbo: false } do |f| %>
+      <%= form_with model: @roster, url: roster_path(@roster), method: :patch, data: { turbo: false, total_budget: @budget_data[:total_budget] } do |f| %>
         <tr class="bg-gray-50 border-t-2 border-gray-200">
           <td class="px-2 py-3 text-xs font-bold text-gray-700 sticky left-0 bg-gray-50 z-10 text-right">
             Daily Budget
           </td>
           <% @budget_data[:daily_breakdown].each_with_index do |day, idx| %>
             <td class="px-2 py-3 text-center border-r border-gray-200">
-               <%= f.number_field "daily_budget_allocations[#{day[:day]}]", value: day[:budget], step: 10, class: "w-20 px-2 py-1 text-sm font-bold text-gray-900 border border-gray-300 rounded text-center focus:ring-blue-500 focus:border-blue-500" %>
+               <%= f.number_field "daily_budget_allocations[#{day[:day]}]", value: day[:budget], step: 10, class: "budget-input w-20 px-2 py-1 text-sm font-bold text-gray-900 border border-gray-300 rounded text-center focus:ring-blue-500 focus:border-blue-500" %>
             </td>
           <% end %>
           <td class="px-2 py-3 text-center bg-gray-100">
@@ -106,7 +106,7 @@
           </td>
         <% end %>
         <td class="px-2 py-3 text-center bg-gray-100">
-          <div class="text-sm font-bold <%= total_daily_variance.abs < 1 ? 'text-green-600' : 'text-red-600' %>">
+          <div id="variance-total" class="text-sm font-bold <%= total_daily_variance.abs < 1 ? 'text-green-600' : 'text-red-600' %>">
             <%= number_to_currency(total_daily_variance, precision: 0, signed: true) %>
           </div>
           <div class="text-[10px] text-gray-500">Total</div>
@@ -128,3 +128,50 @@
     </tbody>
   </table>
 </div>
+
+<script>
+(function() {
+  // Real-time budget variance calculation
+  const form = document.querySelector('[data-total-budget]');
+  if (!form) return;
+  
+  const totalBudget = parseFloat(form.dataset.totalBudget);
+  const budgetInputs = form.querySelectorAll('.budget-input');
+  const varianceTotal = document.getElementById('variance-total');
+  
+  function calculateVariance() {
+    let sum = 0;
+    budgetInputs.forEach(input => {
+      const value = parseFloat(input.value) || 0;
+      sum += value;
+    });
+    
+    const variance = sum - totalBudget;
+    
+    // Update the total variance cell
+    const formattedVariance = new Intl.NumberFormat('en-AU', {
+      style: 'currency',
+      currency: 'AUD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+      signDisplay: 'always'
+    }).format(variance);
+    
+    varianceTotal.textContent = formattedVariance;
+    
+    // Update color: green if close to 0, red otherwise
+    if (Math.abs(variance) < 1) {
+      varianceTotal.classList.remove('text-red-600');
+      varianceTotal.classList.add('text-green-600');
+    } else {
+      varianceTotal.classList.remove('text-green-600');
+      varianceTotal.classList.add('text-red-600');
+    }
+  }
+  
+  // Attach input listeners to all budget fields
+  budgetInputs.forEach(input => {
+    input.addEventListener('input', calculateVariance);
+  });
+})();
+</script>
