@@ -17,16 +17,17 @@ class BaseShiftsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   def new_multi
     # Render the multi-shift creation form
   end
-  
+
   def create_multi
     shifts_params = params[:shifts]
-    created_count = 0
-    errors = []
-    
+    all_shifts = []
+    error_shifts = {}
+
+    # Build all shifts first without saving
     shifts_params.each do |index, shift_attrs|
       shift = @roster.base_shifts.build(
         day_of_week: shift_attrs[:day_of_week],
@@ -34,18 +35,28 @@ class BaseShiftsController < ApplicationController
         end_time: shift_attrs[:end_time],
         work_section_id: shift_attrs[:work_section_id].presence
       )
-      
-      if shift.save
-        created_count += 1
-      else
-        errors << "Shift #{index.to_i + 1}: #{shift.errors.full_messages.join(', ')}"
+
+      # Validate but don't save yet
+      if !shift.valid?
+        error_shifts[index] = shift.errors.full_messages
       end
+
+      all_shifts << shift
     end
-    
-    if errors.empty?
-      redirect_to roster_path(@roster), notice: "Successfully created #{created_count} shifts."
+
+    # If any shifts are invalid, render form with errors
+    if error_shifts.any?
+      @shifts_data = shifts_params
+      @error_shifts = error_shifts
+      render :new_multi, status: :unprocessable_entity
     else
-      redirect_to roster_path(@roster), alert: "Created #{created_count} shifts. Errors: #{errors.join('; ')}"
+      # All valid - save all shifts
+      saved_count = 0
+      all_shifts.each do |shift|
+        saved_count += 1 if shift.save
+      end
+
+      redirect_to roster_path(@roster), notice: "Successfully created #{saved_count} shifts."
     end
   end
 
